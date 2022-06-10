@@ -1,0 +1,8 @@
+Assembly-CSharp-firstpass.csproj
+Assembly-CSharp.csproj
+.vscode
+
+Library
+Logs
+obj
+Temp
