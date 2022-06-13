@@ -30,6 +30,10 @@ public class Idle : Grounded {
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate() {
+        base.PhysicsUpdate();
         // reset jump
         if(!jump) {
             holdingJump = false;
@@ -60,11 +64,6 @@ public class Idle : Grounded {
         if(touchingWall != 0 && Time.time - startTime > 3) {
             stateMachine.ChangeState(player.LeaningState);
         }
-
-    }
-
-    public override void PhysicsUpdate() {
-        base.PhysicsUpdate();
     }
 
 }

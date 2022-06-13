@@ -104,7 +104,7 @@ public class EntityController2D : MonoBehaviour {
         
         Color color = hit ? Color.green : Color.red;
         Debug.DrawRay(new Vector2(bounds.min.x, bounds.max.y), Vector2.up * 0.4f, color, Time.fixedDeltaTime);
-        Debug.DrawRay(new Vector2(bounds.min.x, bounds.max.y + 0.4f), Vector2.right * bounds.extents.x, color, Time.fixedDeltaTime);
+        Debug.DrawRay(new Vector2(bounds.min.x, bounds.max.y + 0.4f), Vector2.right * bounds.size.x, color, Time.fixedDeltaTime);
         Debug.DrawRay(new Vector2(bounds.max.x, bounds.max.y), Vector2.up * 0.4f, color, Time.fixedDeltaTime);
 
         return !hit;

@@ -29,7 +29,10 @@ public class Moving : Grounded {
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+    }
 
+    public override void PhysicsUpdate() {
+        base.PhysicsUpdate();
         // reset jump
         if(!jump) {
             holdingJump = false;
@@ -54,10 +57,6 @@ public class Moving : Grounded {
         if(moveDir == 1) {
             player.sr.flipX = false;
         }
-    }
-
-    public override void PhysicsUpdate() {
-        base.PhysicsUpdate();
     }
 
 }

@@ -26,13 +26,12 @@ public class HardLanding : Grounded {
 
     public override void LogicUpdate() {
         base.LogicUpdate();
-
-        if(Time.time - startTime >= 1f) {
-            stateMachine.ChangeState(player.IdleState);
-        }
     }
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
+        if(Time.time - startTime >= 1f) {
+            stateMachine.ChangeState(player.IdleState);
+        }
     }
 }

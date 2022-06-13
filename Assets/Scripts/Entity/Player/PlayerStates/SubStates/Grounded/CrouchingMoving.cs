@@ -25,6 +25,10 @@ public class CrouchingMoving : Grounded {
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate() {
+        base.PhysicsUpdate();
         if(!crouch && player.controller.canUncrouch()) {
             stateMachine.ChangeState(player.MovingState);
         }
@@ -39,9 +43,5 @@ public class CrouchingMoving : Grounded {
         if(moveDir == 1) {
             player.sr.flipX = false;
         }
-    }
-
-    public override void PhysicsUpdate() {
-        base.PhysicsUpdate();
     }
 }

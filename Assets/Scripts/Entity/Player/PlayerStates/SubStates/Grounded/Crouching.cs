@@ -25,16 +25,16 @@ public class Crouching : Grounded {
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate() {
+        base.PhysicsUpdate();
         if(!crouch && player.controller.canUncrouch()) {
             stateMachine.ChangeState(player.IdleState);
         }
         if(moveDir != 0) {
             stateMachine.ChangeState(player.CrouchingMovingState);
         }
-    }
-
-    public override void PhysicsUpdate() {
-        base.PhysicsUpdate();
     }
 
 }

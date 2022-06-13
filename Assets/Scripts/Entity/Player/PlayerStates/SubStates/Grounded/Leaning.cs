@@ -23,7 +23,10 @@ public class Leaning : Grounded {
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+    }
 
+    public override void PhysicsUpdate() {
+        base.PhysicsUpdate();
         // State Change Checks
         if(moveDir != 0) {
             stateMachine.ChangeState(player.MovingState);
@@ -37,10 +40,6 @@ public class Leaning : Grounded {
 
         // sprite flipping
         player.sr.flipX = touchingWall == 1;
-    }
-
-    public override void PhysicsUpdate() {
-        base.PhysicsUpdate();
     }
 
 }
