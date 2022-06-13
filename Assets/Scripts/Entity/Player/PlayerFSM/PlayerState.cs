@@ -49,11 +49,11 @@ public class PlayerState {
     }
 
     public virtual void LogicUpdate() {
-        DoChecks();
+        
     }
 
     public virtual void PhysicsUpdate() {
-        
+        DoChecks();
     }
 
     public virtual void DoChecks() {
@@ -68,10 +68,10 @@ public class PlayerState {
         // GRAVITY
         if(CALCULATE_GRAVITY) {
             if(grounded || player.controller.isBumpingHead()) {
-                player.setVelY(-playerData.gravity * Time.deltaTime);
+                player.setVelY(-playerData.gravity * Time.fixedDeltaTime);
             }
             else if(player.actualVelocity.y >= playerData.maxFallSpeed) {
-                player.setVelY(player.wishVelocity.y - (gravity * Time.deltaTime));
+                player.setVelY(player.wishVelocity.y - (gravity * Time.fixedDeltaTime));
             }
         }
     }

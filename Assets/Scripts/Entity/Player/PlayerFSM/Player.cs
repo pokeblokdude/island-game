@@ -13,7 +13,6 @@ public class Player : MonoBehaviour {
     public Idle IdleState { get; private set; }
     public Leaning LeaningState { get; private set; }
     public Moving MovingState { get; private set; }
-    public Running RunningState { get; private set; }
     public Crouching CrouchingState { get; private set; }
     public CrouchingMoving CrouchingMovingState { get; private set; }
 
@@ -22,20 +21,6 @@ public class Player : MonoBehaviour {
     public Falling FallingState { get; private set; }
     public FallingFromJump FallingFromJumpState { get; private set; }
     public Jumping JumpingState { get; private set; }
-    public AirDiving AirDivingState { get; private set; }
-    public AirDivingFreeze AirDivingFreezeState { get; private set; }
-
-    public Rolling RollingState { get; private set; }
-
-    public Bonked BonkedState { get; private set; }
-
-    public WallSliding WallSlidingState { get; private set; }
-    public WallSlidingNoLedgeGrab WallSlidingNoLedgeGrabState { get; private set; }
-    public WallJumping WallJumpingState { get; private set; }
-
-    public ClippingLedge ClippingLedgeState { get; private set; }
-    public GrabbingLedge GrabbingLedgeState { get; private set; }
-    public ClimbingLedge ClimbingLedgeState { get; private set; }
    
     #endregion
 
@@ -65,7 +50,6 @@ public class Player : MonoBehaviour {
         IdleState = new Idle(this, StateMachine, playerData, "idle");
         LeaningState = new Leaning(this, StateMachine, playerData, "leaning");
         MovingState = new Moving(this, StateMachine, playerData, "moving");
-        RunningState = new Running(this, StateMachine, playerData, "running");
         CrouchingState = new Crouching(this, StateMachine, playerData, "crouching");
         CrouchingMovingState = new CrouchingMoving(this, StateMachine, playerData, "crouchingMoving");
 
@@ -74,20 +58,7 @@ public class Player : MonoBehaviour {
         JumpingState = new Jumping(this, StateMachine, playerData, "jumping");
         FallingState = new Falling(this, StateMachine, playerData, "falling");
         FallingFromJumpState = new FallingFromJump(this, StateMachine, playerData, "fallingFromJump");
-        AirDivingState = new AirDiving(this, StateMachine, playerData, "airDiving");
-        AirDivingFreezeState = new AirDivingFreeze(this, StateMachine, playerData, "airDivingFreeze");
 
-        RollingState = new Rolling(this, StateMachine, playerData, "rolling");
-
-        BonkedState = new Bonked(this, StateMachine, playerData, "bonked");
-
-        WallSlidingState = new WallSliding(this, StateMachine, playerData, "wallSliding");
-        WallSlidingNoLedgeGrabState = new WallSlidingNoLedgeGrab(this, StateMachine, playerData, "wallSliding");
-        WallJumpingState = new WallJumping(this, StateMachine, playerData, "wallJumping");
-
-        ClippingLedgeState = new ClippingLedge(this, StateMachine, playerData, "clippingLedge");
-        GrabbingLedgeState = new GrabbingLedge(this, StateMachine, playerData, "grabbingLedge");
-        ClimbingLedgeState = new ClimbingLedge(this, StateMachine, playerData, "climbingLedge");
         #endregion
     }
 
@@ -100,19 +71,18 @@ public class Player : MonoBehaviour {
 
     void Update() {
         StateMachine.CurrentState.LogicUpdate();
+        setDebugText();
     }
 
     void FixedUpdate() {
         StateMachine.CurrentState.PhysicsUpdate();
         if(CALCULATE_COLLISION) {
-            actualVelocity = controller.Move(wishVelocity * Time.deltaTime);
+            actualVelocity = controller.Move(wishVelocity * Time.fixedDeltaTime);
         }
-        Debug.DrawRay(transform.position, actualVelocity, Color.green, Time.deltaTime);
-        Debug.DrawRay(transform.position, wishVelocity, Color.blue, Time.deltaTime);
-        setDebugText();
-        //anim.SetFloat("vSpeed", actualVelocity.y);
+        Debug.DrawRay(transform.position, actualVelocity, Color.green, Time.fixedDeltaTime);
+        Debug.DrawRay(transform.position, wishVelocity, Color.blue, Time.fixedDeltaTime);
         
-        controller.CalculateRaySpacing();
+        //anim.SetFloat("vSpeed", actualVelocity.y);
     }
 
     public void setVelX(float f) {
@@ -141,14 +111,14 @@ public class Player : MonoBehaviour {
         if(wishDir != 0) {
             // 330 was about the framerate I was playing at before I fixed the deltaTime issue
             if(Mathf.Abs(speed) < maxSpeed) {
-                speed += wishDir * 330 * Time.deltaTime * acceleration / friction;
+                speed += wishDir * 330 * Time.fixedDeltaTime * acceleration / friction;
             }
             if(Mathf.Abs(speed) > maxSpeed) {
-                speed -= Mathf.Sign(speed) * friction * acceleration * Time.deltaTime;
+                speed -= Mathf.Sign(speed) * friction * acceleration * Time.fixedDeltaTime;
             }
         }
         else {
-            float decelSpeed = speed - Mathf.Sign(speed) * friction * Time.deltaTime;
+            float decelSpeed = speed - Mathf.Sign(speed) * friction * Time.fixedDeltaTime;
             speed = (Mathf.Sign(decelSpeed) != Mathf.Sign(speed)) ? 0 : decelSpeed;
         }
         return speed;
@@ -158,7 +128,7 @@ public class Player : MonoBehaviour {
         float speed = actualVelocity.x;
         if(input.moveDir != 0) {
             if(Mathf.Sign(wishDir) != Mathf.Sign(speed) || Mathf.Abs(speed) < maxAirSpeed) {
-                speed += wishDir * 330 * Time.deltaTime * airAcceleration / airFriction;
+                speed += wishDir * 330 * Time.fixedDeltaTime * airAcceleration / airFriction;
             }
         }
         return speed;

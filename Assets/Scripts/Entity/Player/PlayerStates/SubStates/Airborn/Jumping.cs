@@ -29,18 +29,17 @@ public class Jumping : Airborn {
     }
 
     public override void LogicUpdate() {
-        base.LogicUpdate();
+        base.LogicUpdate();    
+    }
+
+    public override void PhysicsUpdate() {
+        base.PhysicsUpdate();
         
         if(!jump || Time.time - startTime > playerData.jumpIncreaseTime) {
             stateMachine.ChangeState(player.FallingFromJumpState);
         }
 
         player.setVelX(player.AirAccelerate(moveDir, m_airAcceleration, playerData.maxAirSpeed, playerData.airFriction));
-        
-    }
-
-    public override void PhysicsUpdate() {
-        base.PhysicsUpdate();
     }
 
 }

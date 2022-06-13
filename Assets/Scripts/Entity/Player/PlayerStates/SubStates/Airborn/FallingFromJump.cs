@@ -32,6 +32,10 @@ public class FallingFromJump : Airborn {
     }
 
     public override void LogicUpdate() {
+        base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate() {
         if(!action) {
             holdingAction = false;
         }
@@ -58,15 +62,7 @@ public class FallingFromJump : Airborn {
             }
         }
 
-        base.LogicUpdate();
-
-        if(touchingWall != 0 && moveDir == touchingWall && player.actualVelocity.y < playerData.wallSlideInitSpeed) {
-            stateMachine.ChangeState(player.WallSlidingState);
-        }
-
-        if(action && !holdingAction && moveDir != 0 && touchingWall == 0) {
-            stateMachine.ChangeState(player.AirDivingFreezeState);
-        }
+        base.PhysicsUpdate();
 
         player.setVelX(player.AirAccelerate(moveDir, m_airAcceleration, playerData.maxAirSpeed, playerData.airFriction));
 
@@ -77,11 +73,6 @@ public class FallingFromJump : Airborn {
         if(moveDir == 1 && player.actualVelocity.x > -3) {
             player.sr.flipX = false;
         }
-
-    }
-
-    public override void PhysicsUpdate() {
-        base.PhysicsUpdate();
     }
 
 }

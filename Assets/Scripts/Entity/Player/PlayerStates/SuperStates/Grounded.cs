@@ -40,6 +40,10 @@ public class Grounded : PlayerState {
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate() {
+        base.PhysicsUpdate();
 
         // Check Coyote Time
         if(!grounded && !coyoteActive) {
@@ -56,11 +60,6 @@ public class Grounded : PlayerState {
         else {
             player.setVelX(player.Accelerate(0, playerData.acceleration, m_grounded_maxSpeed, m_grounded_friction));
         }
-        
-    }
-
-    public override void PhysicsUpdate() {
-        base.PhysicsUpdate();
     }
 
 }

@@ -22,6 +22,10 @@ public class Falling : Airborn {
     }
 
     public override void LogicUpdate() {
+        base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate() {
         if(player.controller.isGrounded()) {
             if(player.wishVelocity.y < playerData.hardLandingThreshold) {
                 stateMachine.ChangeState(player.HardLandingState);
@@ -36,21 +40,7 @@ public class Falling : Airborn {
             }
         }
 
-        base.LogicUpdate();
-
-        if(touchingWall != 0) {
-            // go to wall sliding state
-            if(moveDir == touchingWall && player.actualVelocity.y < playerData.wallSlideInitSpeed) {
-                if(player.actualVelocity.y < 1) {
-                    stateMachine.ChangeState(player.WallSlidingNoLedgeGrabState);
-                }
-                else {
-                    stateMachine.ChangeState(player.WallSlidingState);
-                }
-                
-            }
-        }
-        
+        base.PhysicsUpdate();
 
         player.setVelX(player.AirAccelerate(moveDir, m_airAcceleration, playerData.maxAirSpeed, playerData.airFriction));
 
@@ -61,11 +51,6 @@ public class Falling : Airborn {
         if(moveDir == 1 && player.actualVelocity.x > -4) {
             player.sr.flipX = false;
         }
-
-    }
-
-    public override void PhysicsUpdate() {
-        base.PhysicsUpdate();
     }
 
 }
