@@ -28,12 +28,12 @@ public class PlayerInput : MonoBehaviour {
         im.Player.Jump.canceled += ctx => {
             jump = false;
         };
-        // im.Player.Crouch.performed += ctx => {
-        //     crouch = true;
-        // };
-        // im.Player.Crouch.canceled += ctx => {
-        //     crouch = false;
-        // };
+        im.Player.Crouch.performed += ctx => {
+            crouch = true;
+        };
+        im.Player.Crouch.canceled += ctx => {
+            crouch = false;
+        };
         // im.Player.Action.performed += ctx => {
         //     action = true;
         // };

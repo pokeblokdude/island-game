@@ -5,23 +5,40 @@ using UnityEngine;
 public class Idle : Grounded {
     
     bool holdingJump;
+    bool jumpOnFirstFrame = false;
 
     public Idle(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
     : base(player, stateMachine, playerData, animBoolName) {
         
     }
 
-    public override void DoChecks() {
-        base.DoChecks();
+    public override void DoLogicChecks() {
+        base.DoLogicChecks();
+    }
+    public override void DoPhysicsChecks() {
+        base.DoPhysicsChecks();
     }
 
     public override void Enter() {
         base.Enter();
         if(jump) {
             holdingJump = true;
+            Debug.Log("holding jump");
         }
-        Debug.Log($"time: {Time.time.ToString("f2")} jump time: {jumpQueueTimestamp.ToString("f2")}");
-        Debug.Log($"jump queue time: {(Time.time - jumpQueueTimestamp).ToString("f2")}");
+        jumpOnFirstFrame = false;
+        Action a = player.inputQueue.Read();
+        if(a != null) {
+            if(a.actionType == Action.ActionType.JUMP) {
+                float jumpTime = Time.time - a.enqueueTime;
+                if(jumpTime < playerData.jumpQueueTime) {
+                    jumpOnFirstFrame = true;
+                }
+                else {
+                    Debug.Log("jump queued for too long " + (Time.time - a.enqueueTime));
+                    jumpOnFirstFrame = false;
+                }
+            }
+        }
     }
 
     public override void Exit() {
@@ -34,13 +51,13 @@ public class Idle : Grounded {
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
+        // do enqueued jump
+        if(jumpOnFirstFrame) {
+            stateMachine.ChangeState(player.JumpingState);
+        }
         // reset jump
         if(!jump) {
             holdingJump = false;
-        }
-        if(Time.time - jumpQueueTimestamp < 0.5f) {
-            holdingJump = false;
-            jump = true;
         }
 
         if(actionUp) {

@@ -9,15 +9,12 @@ public class EntityController2D : MonoBehaviour {
     public LayerMask collisionMask;
 
     const float skinWidth = 0.015f;
-    public int horizontalRayCount = 4;
-    public int verticalRayCount = 4;
-    public float maxSlopeAngle = 50;
 
-    float horizontalRaySpacing;
-    float verticalRaySpacing;
-
+    [SerializeField] PlayerData playerData;
     BoxCollider2D col;
     Rigidbody2D rb;
+
+    float surfaceSlope;
 
     bool grounded = false;
     bool bumpingHead = false;
@@ -33,6 +30,7 @@ public class EntityController2D : MonoBehaviour {
         // reset variables
         grounded = false;
         bumpingHead = false;
+        surfaceSlope = 0;
         
         // do horizontal collisions if moving.
         if(moveAmount.x != 0) {
@@ -41,6 +39,10 @@ public class EntityController2D : MonoBehaviour {
         // do vertical collisions if moving.
         if(moveAmount.y != 0) {
             VerticalCollisions(ref moveAmount);
+        }
+
+        if(grounded && surfaceSlope != 0 && surfaceSlope <= playerData.maxSlopeAngle) {
+            moveAmount = Quaternion.AngleAxis(surfaceSlope, Vector3.forward) * moveAmount;
         }
 
         // apply velocity
@@ -63,7 +65,7 @@ public class EntityController2D : MonoBehaviour {
         Debug.DrawRay(new Vector2(directionX == 1 ? bounds.max.x + rayLength : bounds.min.x - rayLength, bounds.max.y), Vector2.down * bounds.size.y, color, Time.fixedDeltaTime);
         Debug.DrawRay(new Vector2(directionX == 1 ? bounds.max.x : bounds.min.x, bounds.max.y), Vector2.right * directionX * rayLength, color, Time.fixedDeltaTime);
 
-        if(hit) {
+        if(hit && Vector2.Angle(hit.normal, Vector2.up) > playerData.maxSlopeAngle) {
             moveAmount.x = (hit.distance - skinWidth) * directionX;
             //rayLength = hit.distance;
             touchingWall = true;
@@ -89,10 +91,12 @@ public class EntityController2D : MonoBehaviour {
         Debug.DrawRay(new Vector2(bounds.max.x, directionY == 1 ? bounds.max.y : bounds.min.y), Vector2.up * directionY * rayLength, color, Time.fixedDeltaTime);
 
         if(hit) {
+            Debug.DrawRay(hit.point, new Vector2(0.75f, 0.75f), color, Time.fixedDeltaTime);
             moveAmount.y = (hit.distance - skinWidth) * directionY;
             rayLength = hit.distance;
             grounded = (hit.point.y - transform.position.y) < 0 || grounded ? true : false;
             bumpingHead = (hit.point.y - transform.position.y) > 0 || bumpingHead ? true : false;
+            surfaceSlope = -Vector2.SignedAngle(hit.normal, Vector2.up);
         }
         
     }
@@ -118,5 +122,8 @@ public class EntityController2D : MonoBehaviour {
     }
     public int isTouchingWall() {
         return touchingWall ? wallDir : 0;
+    }
+    public float SlopeAngle() {
+        return surfaceSlope;
     }
 }

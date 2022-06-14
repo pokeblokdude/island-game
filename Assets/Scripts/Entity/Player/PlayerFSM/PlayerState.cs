@@ -23,8 +23,6 @@ public class PlayerState {
     protected bool actionUp = false;
     protected int touchingWall;
 
-    protected float jumpQueueTimestamp;
-
     public PlayerState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) {
         this.player = player;
         this.stateMachine = stateMachine;
@@ -33,7 +31,7 @@ public class PlayerState {
     }
 
     public virtual void Enter() {
-        DoChecks();
+        DoLogicChecks();
         //TODO: RE-IMPLEMENT ANIMATIONS
         //player.anim.SetBool(animBoolName, true);
         startTime = Time.time;
@@ -49,14 +47,14 @@ public class PlayerState {
     }
 
     public virtual void LogicUpdate() {
-        
+        DoLogicChecks();
     }
 
     public virtual void PhysicsUpdate() {
-        DoChecks();
+        DoPhysicsChecks();
     }
 
-    public virtual void DoChecks() {
+    public virtual void DoLogicChecks() {
         grounded = player.controller.isGrounded();
         moveDir = player.input.moveDir;
         crouch = player.input.crouch;
@@ -65,6 +63,10 @@ public class PlayerState {
         actionUp = player.input.actionUp;
         touchingWall = player.controller.isTouchingWall();
 
+        UpdateInputQueue();
+    }
+
+    public virtual void DoPhysicsChecks() {
         // GRAVITY
         if(CALCULATE_GRAVITY) {
             if(grounded || player.controller.isBumpingHead()) {
@@ -72,6 +74,21 @@ public class PlayerState {
             }
             else if(player.actualVelocity.y >= playerData.maxFallSpeed) {
                 player.setVelY(player.wishVelocity.y - (gravity * Time.fixedDeltaTime));
+            }
+        }
+    }
+
+    void UpdateInputQueue() {
+        Action a = player.inputQueue.Check();
+        if(a != null) {
+            switch(a.actionType) {
+                case Action.ActionType.JUMP:
+                    if(Time.time - a.enqueueTime > playerData.jumpQueueTime) {
+                        player.inputQueue.ClearOne();
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }

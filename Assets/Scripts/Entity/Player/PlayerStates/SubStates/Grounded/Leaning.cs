@@ -9,8 +9,11 @@ public class Leaning : Grounded {
         
     }
 
-    public override void DoChecks() {
-        base.DoChecks();
+    public override void DoLogicChecks() {
+        base.DoLogicChecks();
+    }
+    public override void DoPhysicsChecks() {
+        base.DoPhysicsChecks();
     }
 
     public override void Enter() {

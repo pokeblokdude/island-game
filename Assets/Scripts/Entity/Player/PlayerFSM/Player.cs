@@ -34,7 +34,7 @@ public class Player : MonoBehaviour {
 
     public EntityController2D controller { get; private set; }
     public PlayerInput input { get; private set; }
-
+    public InputQueue inputQueue { get; private set; }
     public Vector3 wishVelocity { get; private set; }
     public Vector3 actualVelocity { get; private set; }
 
@@ -66,6 +66,7 @@ public class Player : MonoBehaviour {
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<BoxCollider2D>();
+        inputQueue = new InputQueue();
         StateMachine.Initialize(IdleState);
     }
 
@@ -136,8 +137,7 @@ public class Player : MonoBehaviour {
 
     void setDebugText() {
         text.text =     $"FPS: {(1/Time.deltaTime).ToString("F0")}\n" +
-                        $"deltaTime: {Time.deltaTime}\n" +
-                        $"Daylight Ticks: {Mathf.FloorToInt(Mathf.Repeat(Time.time, 1200))}\n\n" +
+                        $"deltaTime: {Time.deltaTime}\n\n" +
                         $"Current State: {StateMachine.CurrentState.Name()}\n" +
                         $"Speed: {actualVelocity.magnitude.ToString("f2")}\n" +
                         $"HSpeed: {actualVelocity.x.ToString("F2")}\n" +
@@ -146,6 +146,7 @@ public class Player : MonoBehaviour {
                         $"Position: {transform.position.ToString("F4")}\n" +
                         $"MoveDir: {input.moveDir}\n" +
                         $"Grounded: {controller.isGrounded()}\n" +
+                        $"Slope Angle: {controller.SlopeAngle()}\n" +
                         $"Calculating Gravity: {StateMachine.CurrentState.calculatingGravity()}\n" +
                         $"Can Uncrouch: {controller.canUncrouch()}\n" +
                         $"Bumping Head: {controller.isBumpingHead()}\n" +

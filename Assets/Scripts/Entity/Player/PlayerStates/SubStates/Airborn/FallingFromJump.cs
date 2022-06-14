@@ -12,8 +12,11 @@ public class FallingFromJump : Airborn {
         
     }
 
-    public override void DoChecks() {
-        base.DoChecks();
+    public override void DoLogicChecks() {
+        base.DoLogicChecks();
+    }
+    public override void DoPhysicsChecks() {
+        base.DoPhysicsChecks();
     }
 
     public override void Enter() {
@@ -24,7 +27,6 @@ public class FallingFromJump : Airborn {
         if(action) {
             holdingAction = true;
         }
-        jumpQueueTimestamp = -1;
     }
 
     public override void Exit() {
@@ -41,11 +43,6 @@ public class FallingFromJump : Airborn {
         }
         if(!jump) {
             holdingJump = false;
-        }
-
-        if(jump && jumpQueueTimestamp == -1 && player.actualVelocity.y < 0 && !holdingJump) {
-            Debug.Log($"queued a jump {Time.time}");
-            jumpQueueTimestamp = Time.time;
         }
 
         if(player.controller.isGrounded()) {

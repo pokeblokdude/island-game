@@ -5,21 +5,38 @@ using UnityEngine;
 public class Moving : Grounded {
     
     bool holdingJump;
-    
+    bool jumpOnFirstFrame;
+
     public Moving(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
     : base(player, stateMachine, playerData, animBoolName) {
         
     }
     
-    public override void DoChecks() {
-        base.DoChecks();
+    public override void DoLogicChecks() {
+        base.DoLogicChecks();
+    }
+    public override void DoPhysicsChecks() {
+        base.DoPhysicsChecks();
     }
 
     public override void Enter() {
         base.Enter();
-        
         if(jump) {
             holdingJump = true;
+        }
+        jumpOnFirstFrame = false;
+        Action a = player.inputQueue.Read();
+        if(a != null) {
+            if(a.actionType == Action.ActionType.JUMP) {
+                float jumpTime = Time.time - a.enqueueTime;
+                if(jumpTime < playerData.jumpQueueTime) {
+                    jumpOnFirstFrame = true;
+                }
+                else {
+                    Debug.Log("jump queued for too long " + (Time.time - a.enqueueTime));
+                    jumpOnFirstFrame = false;
+                }
+            }
         }
     }
 
@@ -33,6 +50,10 @@ public class Moving : Grounded {
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
+        if(jumpOnFirstFrame) {
+            stateMachine.ChangeState(player.JumpingState);
+        }
+
         // reset jump
         if(!jump) {
             holdingJump = false;
