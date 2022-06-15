@@ -54,6 +54,10 @@ public class Falling : Airborn {
         if(moveDir == 1 && player.actualVelocity.x > -4) {
             player.sr.flipX = false;
         }
+
+        if(jump) {
+            holdingJump = true;
+        }
     }
 
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Moving : Grounded {
     
-    bool holdingJump;
     bool jumpOnFirstFrame;
 
     public Moving(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
@@ -21,9 +20,6 @@ public class Moving : Grounded {
 
     public override void Enter() {
         base.Enter();
-        if(jump) {
-            holdingJump = true;
-        }
         jumpOnFirstFrame = false;
         Action a = player.inputQueue.Read();
         if(a != null) {
@@ -52,11 +48,6 @@ public class Moving : Grounded {
         base.PhysicsUpdate();
         if(jumpOnFirstFrame) {
             stateMachine.ChangeState(player.JumpingState);
-        }
-
-        // reset jump
-        if(!jump) {
-            holdingJump = false;
         }
 
         if(crouch) {

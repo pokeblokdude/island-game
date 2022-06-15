@@ -33,8 +33,9 @@ public class HardLanding : Grounded {
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
-        if(Time.time - startTime >= 1f) {
-            stateMachine.ChangeState(player.IdleState);
-        }
+        // if(Time.time - startTime >= 1f) {
+        //     stateMachine.ChangeState(player.IdleState);
+        // }
+        stateMachine.ChangeState(player.IdleState);
     }
 }

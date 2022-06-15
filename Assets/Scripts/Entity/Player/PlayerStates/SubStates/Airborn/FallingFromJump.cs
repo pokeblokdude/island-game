@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FallingFromJump : Airborn {
 
-    bool holdingJump;
     bool holdingAction;
 
     public FallingFromJump(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) 
@@ -41,9 +40,6 @@ public class FallingFromJump : Airborn {
         if(!action) {
             holdingAction = false;
         }
-        if(!jump) {
-            holdingJump = false;
-        }
 
         if(player.controller.isGrounded()) {
             if(player.wishVelocity.y < playerData.hardLandingThreshold) {
@@ -69,6 +65,10 @@ public class FallingFromJump : Airborn {
         }
         if(moveDir == 1 && player.actualVelocity.x > -3) {
             player.sr.flipX = false;
+        }
+
+        if(jump) {
+            holdingJump = true;
         }
     }
 

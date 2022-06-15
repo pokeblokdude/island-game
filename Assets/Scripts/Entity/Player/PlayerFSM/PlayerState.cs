@@ -22,6 +22,7 @@ public class PlayerState {
     protected bool action = false;
     protected bool actionUp = false;
     protected int touchingWall;
+    protected bool holdingJump = false;
 
     public PlayerState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) {
         this.player = player;
@@ -67,6 +68,9 @@ public class PlayerState {
     }
 
     public virtual void DoPhysicsChecks() {
+        if(!jump) {
+            holdingJump = false;
+        }
         // GRAVITY
         if(CALCULATE_GRAVITY) {
             if(grounded || player.controller.isBumpingHead()) {

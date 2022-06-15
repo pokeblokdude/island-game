@@ -5,7 +5,6 @@ using UnityEngine;
 public class Airborn : PlayerState {
 
     protected float m_airAcceleration;
-    bool holdingJump = false;
 
     public Airborn(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) 
     : base(player, stateMachine, playerData, animBoolName) {
@@ -37,9 +36,6 @@ public class Airborn : PlayerState {
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
-        if(!jump) {
-            holdingJump = false;
-        }
 
         if(player.actualVelocity.y < 0) {
             gravity = playerData.gravity * playerData.fallingGravityMult;

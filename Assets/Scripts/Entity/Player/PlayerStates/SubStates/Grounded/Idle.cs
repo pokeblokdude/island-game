@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Idle : Grounded {
     
-    bool holdingJump;
     bool jumpOnFirstFrame = false;
 
     public Idle(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
@@ -21,10 +20,6 @@ public class Idle : Grounded {
 
     public override void Enter() {
         base.Enter();
-        if(jump) {
-            holdingJump = true;
-            Debug.Log("holding jump");
-        }
         jumpOnFirstFrame = false;
         Action a = player.inputQueue.Read();
         if(a != null) {
@@ -54,10 +49,6 @@ public class Idle : Grounded {
         // do enqueued jump
         if(jumpOnFirstFrame) {
             stateMachine.ChangeState(player.JumpingState);
-        }
-        // reset jump
-        if(!jump) {
-            holdingJump = false;
         }
 
         if(actionUp) {

@@ -22,22 +22,10 @@ MonoBehaviour:
   crouchFrictionMult: 2
   airFriction: 30
   gravity: 20
+  fallingGravityMult: 2.5
+  maxSlopeAngle: 55
   jumpForce: 7
   jumpIncreaseTime: 0.15
-  coyoteTime: 0.1
-  hardLandingThreshold: -20
-  diveForce: 5
-  diveAngle: {x: 0.25, y: 0.8}
-  diveFreezeTime: 0.1
-  rollStopThreshold: 2.5
-  bonkStrengthMult: 0.75
-  bonkDuration: 0.9
-  wallSlideInitSpeed: 4
-  wallSlideFriction: 4
-  maxWallSlideSpeed: 3
-  wallStickTime: 0.3
-  wallJumpForce: 10
-  wallJumpAngle: {x: 0.8, y: 0.7}
-  ledgeGrabLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
+  coyoteTime: 0.2
+  jumpQueueTime: 0.2
+  hardLandingThreshold: -50

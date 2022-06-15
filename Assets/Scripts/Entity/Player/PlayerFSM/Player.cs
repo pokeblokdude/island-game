@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
     public PlayerInput input { get; private set; }
     public InputQueue inputQueue { get; private set; }
     public Vector3 wishVelocity { get; private set; }
+    public float groundSpeed { get; private set; }
     public Vector3 actualVelocity { get; private set; }
 
     public bool CALCULATE_COLLISION = true;
@@ -78,7 +79,10 @@ public class Player : MonoBehaviour {
     void FixedUpdate() {
         StateMachine.CurrentState.PhysicsUpdate();
         if(CALCULATE_COLLISION) {
-            actualVelocity = controller.Move(wishVelocity * Time.fixedDeltaTime);
+            if(controller.isGrounded()) {
+                groundSpeed = actualVelocity.x;
+            }
+            actualVelocity = controller.Move(wishVelocity * Time.fixedDeltaTime, groundSpeed * Time.fixedDeltaTime);
         }
         Debug.DrawRay(transform.position, actualVelocity, Color.green, Time.fixedDeltaTime);
         Debug.DrawRay(transform.position, wishVelocity, Color.blue, Time.fixedDeltaTime);
@@ -88,6 +92,7 @@ public class Player : MonoBehaviour {
 
     public void setVelX(float f) {
         wishVelocity = new Vector3(f, wishVelocity.y, wishVelocity.z);
+        //groundSpeed = f;
     }
 
     public void setVelY(float f) {
@@ -108,7 +113,7 @@ public class Player : MonoBehaviour {
     }
 
     public float Accelerate(float wishDir, float acceleration, float maxSpeed, float friction) {
-        float speed = actualVelocity.x;
+        float speed = groundSpeed;
         if(wishDir != 0) {
             // 330 was about the framerate I was playing at before I fixed the deltaTime issue
             if(Mathf.Abs(speed) < maxSpeed) {
@@ -140,8 +145,8 @@ public class Player : MonoBehaviour {
                         $"deltaTime: {Time.deltaTime}\n\n" +
                         $"Current State: {StateMachine.CurrentState.Name()}\n" +
                         $"Speed: {actualVelocity.magnitude.ToString("f2")}\n" +
-                        $"HSpeed: {actualVelocity.x.ToString("F2")}\n" +
-                        $"VSpeed: {actualVelocity.y.ToString("F2")}\n" +
+                        $"HSpeed: {actualVelocity.x.ToString("F4")}\n" +
+                        $"VSpeed: {actualVelocity.y.ToString("F4")}\n" +
                         $"WishVel: {wishVelocity.ToString("F4")}\n" +
                         $"Position: {transform.position.ToString("F4")}\n" +
                         $"MoveDir: {input.moveDir}\n" +
