@@ -13,7 +13,6 @@ public class EntityController2D : MonoBehaviour {
     BoxCollider2D col;
     Rigidbody2D rb;
 
-
     const float skinWidth = 0.015f;
 
     float slopeAngle, slopeAngleOld;
