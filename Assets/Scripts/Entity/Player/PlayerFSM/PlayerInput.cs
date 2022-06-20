@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour {
     public bool action { get; private set; } = false;
     public bool actionUp { get; private set; } = false;
 
+    public bool toggleDebugRays { get; private set; } = false;
+
     void Awake() {
         im = new InputManager();
 
@@ -46,6 +48,17 @@ public class PlayerInput : MonoBehaviour {
         // im.Player.ActionUp.canceled += ctx => {
         //     actionUp = false;
         // };
+        #endregion
+
+        #region DEBUG
+        im.Debug.ToggleDebugRays.performed += ctx => {
+            if(im.Debug.ToggleDebugRays.WasPressedThisFrame()) {
+                toggleDebugRays = true;
+            }
+        };
+        im.Debug.ToggleDebugRays.canceled += ctx => {
+            toggleDebugRays = false;
+        };
         #endregion
     }
 

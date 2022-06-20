@@ -71,12 +71,13 @@ public class PlayerState {
         if(!jump) {
             holdingJump = false;
         }
+
         // GRAVITY
         if(CALCULATE_GRAVITY) {
             if(grounded || player.controller.isBumpingHead()) {
-                player.setVelY(-playerData.gravity * Time.fixedDeltaTime);
+                player.setVelY(-gravity * Time.fixedDeltaTime);
             }
-            else if(player.actualVelocity.y >= playerData.maxFallSpeed) {
+            else if(player.actualVelocity.y >= playerData.maxFallSpeed && !grounded) {
                 player.setVelY(player.wishVelocity.y - (gravity * Time.fixedDeltaTime));
             }
         }

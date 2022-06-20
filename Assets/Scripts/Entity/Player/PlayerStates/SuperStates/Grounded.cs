@@ -58,10 +58,10 @@ public class Grounded : PlayerState {
         }
 
         if(DO_MOVEMENT) {
-            player.setVelX(player.Accelerate(moveDir, playerData.acceleration, m_grounded_maxSpeed, m_grounded_friction));
+            player.setGroundSpeed(player.Accelerate(moveDir, playerData.acceleration, m_grounded_maxSpeed, m_grounded_friction));
         }
         else {
-            player.setVelX(player.Accelerate(0, playerData.acceleration, m_grounded_maxSpeed, m_grounded_friction));
+            player.setGroundSpeed(player.Accelerate(0, playerData.acceleration, m_grounded_maxSpeed, m_grounded_friction));
         }
     }
 

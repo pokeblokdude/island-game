@@ -59,6 +59,9 @@ public class Idle : Grounded {
         }
 
         // State Change Checks
+        if(!grounded) {
+            stateMachine.ChangeState(player.FallingState);
+        }
         if(moveDir != 0) {
             stateMachine.ChangeState(player.MovingState);
         }

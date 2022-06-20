@@ -35,8 +35,8 @@ public class Player : MonoBehaviour {
     public EntityController2D controller { get; private set; }
     public PlayerInput input { get; private set; }
     public InputQueue inputQueue { get; private set; }
-    public Vector3 wishVelocity { get; private set; }
     public float groundSpeed { get; private set; }
+    public Vector3 wishVelocity { get; private set; }
     public Vector3 actualVelocity { get; private set; }
 
     public bool CALCULATE_COLLISION = true;
@@ -74,25 +74,40 @@ public class Player : MonoBehaviour {
     void Update() {
         StateMachine.CurrentState.LogicUpdate();
         setDebugText();
+        if(input.toggleDebugRays) {
+            controller.ToggleDebugMode();
+        }
     }
 
     void FixedUpdate() {
         StateMachine.CurrentState.PhysicsUpdate();
         if(CALCULATE_COLLISION) {
             if(controller.isGrounded()) {
+                wishVelocity = new Vector3(
+                    groundSpeed,
+                    wishVelocity.y,
+                    0
+                );
+                //print(controller.SlopeAngle() == 0);
+            }
+            actualVelocity = controller.Move(wishVelocity * Time.fixedDeltaTime);
+            if(!controller.isGrounded()) {
                 groundSpeed = actualVelocity.x;
             }
-            actualVelocity = controller.Move(wishVelocity * Time.fixedDeltaTime, groundSpeed * Time.fixedDeltaTime);
+            
         }
-        Debug.DrawRay(transform.position, actualVelocity, Color.green, Time.fixedDeltaTime);
-        Debug.DrawRay(transform.position, wishVelocity, Color.blue, Time.fixedDeltaTime);
+        //Debug.DrawRay(transform.position, actualVelocity /* Time.fixedDeltaTime * 3*/, Color.green, Time.fixedDeltaTime);
+        //Debug.DrawRay(transform.position, wishVelocity /* Time.fixedDeltaTime * 3*/, Color.blue, Time.fixedDeltaTime);
         
         //anim.SetFloat("vSpeed", actualVelocity.y);
     }
 
+    public void setGroundSpeed(float f) {
+        groundSpeed = f;
+    }
+
     public void setVelX(float f) {
         wishVelocity = new Vector3(f, wishVelocity.y, wishVelocity.z);
-        //groundSpeed = f;
     }
 
     public void setVelY(float f) {
@@ -145,6 +160,7 @@ public class Player : MonoBehaviour {
                         $"deltaTime: {Time.deltaTime}\n\n" +
                         $"Current State: {StateMachine.CurrentState.Name()}\n" +
                         $"Speed: {actualVelocity.magnitude.ToString("f2")}\n" +
+                        $"GroundSpeed: {groundSpeed.ToString("f4")}\n" +
                         $"HSpeed: {actualVelocity.x.ToString("F4")}\n" +
                         $"VSpeed: {actualVelocity.y.ToString("F4")}\n" +
                         $"WishVel: {wishVelocity.ToString("F4")}\n" +

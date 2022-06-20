@@ -112,6 +112,34 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Debug"",
+            ""id"": ""6faceb05-7138-434a-b126-d04b525d2ae5"",
+            ""actions"": [
+                {
+                    ""name"": ""ToggleDebugRays"",
+                    ""type"": ""Button"",
+                    ""id"": ""919af23c-5bbe-4558-8c25-cded055e8cad"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""042c9e06-0da5-4a82-8ed8-b57f75b1b9f4"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ToggleDebugRays"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -127,6 +155,9 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        // Debug
+        m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
+        m_Debug_ToggleDebugRays = m_Debug.FindAction("ToggleDebugRays", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -231,6 +262,39 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Debug
+    private readonly InputActionMap m_Debug;
+    private IDebugActions m_DebugActionsCallbackInterface;
+    private readonly InputAction m_Debug_ToggleDebugRays;
+    public struct DebugActions
+    {
+        private @InputManager m_Wrapper;
+        public DebugActions(@InputManager wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ToggleDebugRays => m_Wrapper.m_Debug_ToggleDebugRays;
+        public InputActionMap Get() { return m_Wrapper.m_Debug; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DebugActions set) { return set.Get(); }
+        public void SetCallbacks(IDebugActions instance)
+        {
+            if (m_Wrapper.m_DebugActionsCallbackInterface != null)
+            {
+                @ToggleDebugRays.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleDebugRays;
+                @ToggleDebugRays.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleDebugRays;
+                @ToggleDebugRays.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleDebugRays;
+            }
+            m_Wrapper.m_DebugActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ToggleDebugRays.started += instance.OnToggleDebugRays;
+                @ToggleDebugRays.performed += instance.OnToggleDebugRays;
+                @ToggleDebugRays.canceled += instance.OnToggleDebugRays;
+            }
+        }
+    }
+    public DebugActions @Debug => new DebugActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -245,5 +309,9 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+    }
+    public interface IDebugActions
+    {
+        void OnToggleDebugRays(InputAction.CallbackContext context);
     }
 }

@@ -90,6 +90,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Debug",
+            "id": "6faceb05-7138-434a-b126-d04b525d2ae5",
+            "actions": [
+                {
+                    "name": "ToggleDebugRays",
+                    "type": "Button",
+                    "id": "919af23c-5bbe-4558-8c25-cded055e8cad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "042c9e06-0da5-4a82-8ed8-b57f75b1b9f4",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ToggleDebugRays",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
