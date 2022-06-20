@@ -92,6 +92,54 @@
             ]
         },
         {
+            "name": "Game",
+            "id": "1853441c-6e4a-4b62-a339-f239e87896f6",
+            "actions": [
+                {
+                    "name": "Reset",
+                    "type": "Button",
+                    "id": "1f40a9f2-2d12-4fd2-87cc-75c3f1217a49",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "125814dd-d0b3-418d-9445-b35638a66dc7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "725e7bbc-00a8-4099-90a8-41ffc9640579",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3885fa9c-2ac3-4e31-9984-d8c0d44e2556",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "Debug",
             "id": "6faceb05-7138-434a-b126-d04b525d2ae5",
             "actions": [

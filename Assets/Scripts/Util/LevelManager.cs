@@ -48,5 +48,4 @@ public class LevelManager : MonoBehaviour {
                 new Vector3(SceneTransitionData.playerMoveDir * 2, SceneTransitionData.playerVerticalOffset, 0);
         }
     }
-
 }

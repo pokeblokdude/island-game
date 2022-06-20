@@ -114,6 +114,54 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Game"",
+            ""id"": ""1853441c-6e4a-4b62-a339-f239e87896f6"",
+            ""actions"": [
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f40a9f2-2d12-4fd2-87cc-75c3f1217a49"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""125814dd-d0b3-418d-9445-b35638a66dc7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""725e7bbc-00a8-4099-90a8-41ffc9640579"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3885fa9c-2ac3-4e31-9984-d8c0d44e2556"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""Debug"",
             ""id"": ""6faceb05-7138-434a-b126-d04b525d2ae5"",
             ""actions"": [
@@ -155,6 +203,10 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        // Game
+        m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
+        m_Game_Reset = m_Game.FindAction("Reset", throwIfNotFound: true);
+        m_Game_Quit = m_Game.FindAction("Quit", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_ToggleDebugRays = m_Debug.FindAction("ToggleDebugRays", throwIfNotFound: true);
@@ -263,6 +315,47 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
+    // Game
+    private readonly InputActionMap m_Game;
+    private IGameActions m_GameActionsCallbackInterface;
+    private readonly InputAction m_Game_Reset;
+    private readonly InputAction m_Game_Quit;
+    public struct GameActions
+    {
+        private @InputManager m_Wrapper;
+        public GameActions(@InputManager wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Reset => m_Wrapper.m_Game_Reset;
+        public InputAction @Quit => m_Wrapper.m_Game_Quit;
+        public InputActionMap Get() { return m_Wrapper.m_Game; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GameActions set) { return set.Get(); }
+        public void SetCallbacks(IGameActions instance)
+        {
+            if (m_Wrapper.m_GameActionsCallbackInterface != null)
+            {
+                @Reset.started -= m_Wrapper.m_GameActionsCallbackInterface.OnReset;
+                @Reset.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnReset;
+                @Reset.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnReset;
+                @Quit.started -= m_Wrapper.m_GameActionsCallbackInterface.OnQuit;
+                @Quit.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnQuit;
+                @Quit.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnQuit;
+            }
+            m_Wrapper.m_GameActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Reset.started += instance.OnReset;
+                @Reset.performed += instance.OnReset;
+                @Reset.canceled += instance.OnReset;
+                @Quit.started += instance.OnQuit;
+                @Quit.performed += instance.OnQuit;
+                @Quit.canceled += instance.OnQuit;
+            }
+        }
+    }
+    public GameActions @Game => new GameActions(this);
+
     // Debug
     private readonly InputActionMap m_Debug;
     private IDebugActions m_DebugActionsCallbackInterface;
@@ -309,6 +402,11 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+    }
+    public interface IGameActions
+    {
+        void OnReset(InputAction.CallbackContext context);
+        void OnQuit(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {
