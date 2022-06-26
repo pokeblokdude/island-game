@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Moving : Grounded {
-    
-    bool jumpOnFirstFrame;
 
     public Moving(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
     : base(player, stateMachine, playerData, animBoolName) {
@@ -20,20 +18,6 @@ public class Moving : Grounded {
 
     public override void Enter() {
         base.Enter();
-        jumpOnFirstFrame = false;
-        Action a = player.inputQueue.Read();
-        if(a != null) {
-            if(a.actionType == Action.ActionType.JUMP) {
-                float jumpTime = Time.time - a.enqueueTime;
-                if(jumpTime < playerData.jumpQueueTime) {
-                    jumpOnFirstFrame = true;
-                }
-                else {
-                    Debug.Log("jump queued for too long " + (Time.time - a.enqueueTime));
-                    jumpOnFirstFrame = false;
-                }
-            }
-        }
     }
 
     public override void Exit() {
@@ -46,7 +30,7 @@ public class Moving : Grounded {
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
-        if(jumpOnFirstFrame) {
+        if(player.jumpBufferCounter > 0) {
             stateMachine.ChangeState(player.JumpingState);
         }
 

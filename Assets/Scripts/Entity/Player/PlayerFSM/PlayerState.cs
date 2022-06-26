@@ -22,6 +22,7 @@ public class PlayerState {
     protected bool action = false;
     protected bool actionUp = false;
     protected int touchingWall;
+
     protected bool holdingJump = false;
 
     public PlayerState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) {
@@ -38,6 +39,7 @@ public class PlayerState {
         startTime = Time.time;
         //Debug.Log(animBoolName);
         gravity = playerData.gravity;
+        holdingJump = jump;
 
         //player.ledgeGrabPoint.disable();
     }
@@ -63,8 +65,6 @@ public class PlayerState {
         action = player.input.action;
         actionUp = player.input.actionUp;
         touchingWall = player.controller.isTouchingWall();
-
-        UpdateInputQueue();
     }
 
     public virtual void DoPhysicsChecks() {
@@ -72,6 +72,10 @@ public class PlayerState {
             holdingJump = false;
         }
 
+        if(player.jumpBufferCounter > 0) {
+            player.jumpBufferCounter -= Time.fixedDeltaTime;
+        }
+        
         // GRAVITY
         if(CALCULATE_GRAVITY) {
             if(grounded || player.controller.isBumpingHead()) {
@@ -83,27 +87,13 @@ public class PlayerState {
         }
     }
 
-    void UpdateInputQueue() {
-        Action a = player.inputQueue.Check();
-        if(a != null) {
-            switch(a.actionType) {
-                case Action.ActionType.JUMP:
-                    if(Time.time - a.enqueueTime > playerData.jumpQueueTime) {
-                        player.inputQueue.ClearOne();
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     public string Name() {
         return animBoolName;
     }
 
-    // DEBUGGING
+    #region DEBUGGING
     public bool calculatingGravity() {
         return CALCULATE_GRAVITY;
     }
+    #endregion
 }  

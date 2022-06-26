@@ -22,7 +22,7 @@ public class PlayerData : ScriptableObject {
     public float jumpForce = 10;
     public float jumpIncreaseTime = 0.5f;
     public float coyoteTime = 0.1f;
-    public float jumpQueueTime = 0.4f;
+    public float jumpBufferTime = 0.2f;
 
     [Header("Landing")]
     public float hardLandingThreshold = -10f;

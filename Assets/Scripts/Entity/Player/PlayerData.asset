@@ -27,5 +27,5 @@ MonoBehaviour:
   jumpForce: 7
   jumpIncreaseTime: 0.15
   coyoteTime: 0.2
-  jumpQueueTime: 0.2
+  jumpBufferTime: 1
   hardLandingThreshold: -50

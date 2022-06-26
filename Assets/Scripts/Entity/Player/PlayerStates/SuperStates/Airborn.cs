@@ -42,9 +42,11 @@ public class Airborn : PlayerState {
         }
 
         if(jump && !holdingJump) {
-            player.inputQueue.Add(new Action(Action.ActionType.JUMP));
+            player.jumpBufferCounter = playerData.jumpBufferTime;
+            holdingJump = true;
             Debug.Log("queuing a jump");
         }
+        holdingJump = jump;
     }
 
 }

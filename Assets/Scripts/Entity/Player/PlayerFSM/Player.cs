@@ -34,10 +34,11 @@ public class Player : MonoBehaviour {
 
     public EntityController2D controller { get; private set; }
     public PlayerInput input { get; private set; }
-    public InputQueue inputQueue { get; private set; }
     public float groundSpeed { get; private set; }
     public Vector3 wishVelocity { get; private set; }
     public Vector3 actualVelocity { get; private set; }
+    
+    public float jumpBufferCounter;
 
     public bool CALCULATE_COLLISION = true;
 
@@ -67,7 +68,6 @@ public class Player : MonoBehaviour {
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<BoxCollider2D>();
-        inputQueue = new InputQueue();
         StateMachine.Initialize(IdleState);
     }
 
@@ -171,7 +171,8 @@ public class Player : MonoBehaviour {
                         $"Calculating Gravity: {StateMachine.CurrentState.calculatingGravity()}\n" +
                         $"Can Uncrouch: {controller.canUncrouch()}\n" +
                         $"Bumping Head: {controller.isBumpingHead()}\n" +
-                        $"Touching Wall: {controller.isTouchingWall()}\n"
+                        $"Touching Wall: {controller.isTouchingWall()}\n\n" +
+                        $"Jump Buffer: {jumpBufferCounter}\n"
                         
         ;
     }
