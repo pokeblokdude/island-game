@@ -74,7 +74,7 @@ Material:
     - _Halftone_Pattern_Brightness: 0.7
     - _Halftone_Pattern_Randomness: 0.2
     - _Halftone_Pattern_Rotation_Factor: -22.3
-    - _Halftone_Scale: 400
+    - _Halftone_Scale: 580
     - _Ink_Color_Inconsistency: 0.3
     - _Ink_Mix_Factor: 1.28
     - _K_Factor: 0.8

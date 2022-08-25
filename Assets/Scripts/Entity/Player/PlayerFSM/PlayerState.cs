@@ -20,6 +20,7 @@ public class PlayerState {
     protected bool crouch = false;
     protected bool jump = false;
     protected bool action = false;
+    protected bool attack = false;
     protected bool actionUp = false;
     protected int touchingWall;
 
@@ -65,6 +66,7 @@ public class PlayerState {
         action = player.input.action;
         actionUp = player.input.actionUp;
         touchingWall = player.controller.isTouchingWall();
+        attack = player.input.attack;
     }
 
     public virtual void DoPhysicsChecks() {

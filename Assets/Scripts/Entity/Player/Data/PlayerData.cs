@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName="newPlayerData", menuName="Data/Player Data/Base Data")]
+[CreateAssetMenu(fileName="newPlayerData", menuName="Data/Entity/Player/Base Data")]
 public class PlayerData : ScriptableObject {
     
     public float maxFallSpeed = -20;

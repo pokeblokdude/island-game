@@ -44,6 +44,9 @@ public class Idle : Grounded {
         }
 
         // State Change Checks
+        if(attack) {
+            stateMachine.ChangeState(player.AttackingState);
+        }
         if(!grounded) {
             stateMachine.ChangeState(player.FallingState);
         }

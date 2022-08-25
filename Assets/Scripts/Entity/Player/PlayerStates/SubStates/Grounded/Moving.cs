@@ -34,6 +34,10 @@ public class Moving : Grounded {
             stateMachine.ChangeState(player.JumpingState);
         }
 
+        if(attack) {
+            stateMachine.ChangeState(player.AttackingState);
+        }
+
         if(crouch) {
             stateMachine.ChangeState(player.CrouchingMovingState);
         }

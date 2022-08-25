@@ -9,6 +9,7 @@ public class PlayerInput : MonoBehaviour {
     public float moveDir { get; private set; } = 0;
     public bool jump { get; private set; } = false;
     public bool crouch { get; private set; } = false;
+    public bool attack { get; private set; } = false;
     public bool action { get; private set; } = false;
     public bool actionUp { get; private set; } = false;
 
@@ -35,6 +36,12 @@ public class PlayerInput : MonoBehaviour {
         };
         im.Player.Crouch.canceled += ctx => {
             crouch = false;
+        };
+        im.Player.Attack.performed += ctx => {
+            attack = true;
+        };
+        im.Player.Attack.canceled += ctx => {
+            attack = false;
         };
         // im.Player.Action.performed += ctx => {
         //     action = true;

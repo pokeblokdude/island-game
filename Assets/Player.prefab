@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 1851587080116333286}
   - component: {fileID: 1851587080116333287}
   - component: {fileID: 1851587080116333087}
-  - component: {fileID: 1851587080116333280}
+  - component: {fileID: 476561068}
   - component: {fileID: 1851587080116333282}
   - component: {fileID: 1851587080116333085}
-  - component: {fileID: 1851587080116333281}
-  - component: {fileID: 1851587080116333084}
+  - component: {fileID: 476561066}
+  - component: {fileID: 476561067}
   - component: {fileID: 4583779993513891778}
+  - component: {fileID: 5535415242186728053}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -33,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 1851587080116333284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.91, y: -0.25, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,12 +81,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.8490566, g: 0.36867782, b: 0.36445355, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 4bd240a081faa3e4aacab0dbe457c9de, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.24, y: 0.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -99,7 +100,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851587080116333284}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
@@ -111,7 +112,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!61 &1851587080116333280
+--- !u!61 &476561068
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,18 +125,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0625, y: -0.125}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1.5, y: 1.75}
+    newSize: {x: 0.24, y: 0.28}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1.5}
   m_EdgeRadius: 0
 --- !u!50 &1851587080116333282
 Rigidbody2D:
@@ -170,7 +171,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a47556bf447834c9cbcb82adfb6e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1851587080116333281
+--- !u!114 &476561066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851587080116333284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefd40db70556fa4890cee2152d5e6d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: ebbb13a544a5cf44e999c65358da1c71, type: 2}
+  ledgeGrabPoint: {fileID: 0}
+  text: {fileID: 0}
+  attackHitbox: {fileID: 0}
+  jumpBufferCounter: 0
+  CALCULATE_COLLISION: 1
+--- !u!114 &476561067
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,23 +205,7 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 64
-  debug: 1
---- !u!114 &1851587080116333084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1851587080116333284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aefd40db70556fa4890cee2152d5e6d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: ebbb13a544a5cf44e999c65358da1c71, type: 2}
-  ledgeGrabPoint: {fileID: 0}
-  text: {fileID: 0}
-  CALCULATE_COLLISION: 1
+  debug: 0
 --- !u!114 &4583779993513891778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,3 +219,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectID: 
+--- !u!114 &5535415242186728053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851587080116333284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 836dda35d3d1f9d4b96b191149dd2199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  size: {x: 1, y: 1}
+  offset: {x: 1, y: 0}

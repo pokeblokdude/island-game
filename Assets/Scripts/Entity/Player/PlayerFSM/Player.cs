@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
     public FallingFromJump FallingFromJumpState { get; private set; }
     public Jumping JumpingState { get; private set; }
    
+    public Attacking AttackingState { get; private set; }
     #endregion
 
     public SpriteRenderer sr { get; private set; }
@@ -32,12 +33,15 @@ public class Player : MonoBehaviour {
     [SerializeField] public LedgeGrabPoint ledgeGrabPoint;
     [SerializeField] Text text;
 
+    public CombatDamageDealer attackHitbox;
+
     public EntityController2D controller { get; private set; }
     public PlayerInput input { get; private set; }
     public float groundSpeed { get; private set; }
     public Vector3 wishVelocity { get; private set; }
     public Vector3 actualVelocity { get; private set; }
-    
+    public int lookDir { get; private set; } = 1;
+
     public float jumpBufferCounter;
 
     public bool CALCULATE_COLLISION = true;
@@ -61,6 +65,8 @@ public class Player : MonoBehaviour {
         FallingState = new Falling(this, StateMachine, playerData, "falling");
         FallingFromJumpState = new FallingFromJump(this, StateMachine, playerData, "fallingFromJump");
 
+        AttackingState = new Attacking(this, StateMachine, playerData, "attacking");
+
         #endregion
     }
 
@@ -69,6 +75,8 @@ public class Player : MonoBehaviour {
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<BoxCollider2D>();
         StateMachine.Initialize(IdleState);
+        attackHitbox = GetComponent<CombatDamageDealer>();
+        attackHitbox.enabled = false;
     }
 
     void Update() {
@@ -96,6 +104,8 @@ public class Player : MonoBehaviour {
             }
             
         }
+        lookDir = sr.flipX ? -1 : 1;
+        controller.OverrideLookDirection(lookDir);
         //Debug.DrawRay(transform.position, actualVelocity /* Time.fixedDeltaTime * 3*/, Color.green, Time.fixedDeltaTime);
         //Debug.DrawRay(transform.position, wishVelocity /* Time.fixedDeltaTime * 3*/, Color.blue, Time.fixedDeltaTime);
         
@@ -158,6 +168,7 @@ public class Player : MonoBehaviour {
     void setDebugText() {
         text.text =     $"FPS: {(1/Time.deltaTime).ToString("F0")}\n" +
                         $"deltaTime: {Time.deltaTime}\n\n" +
+
                         $"Current State: {StateMachine.CurrentState.Name()}\n" +
                         $"Speed: {actualVelocity.magnitude.ToString("f2")}\n" +
                         $"GroundSpeed: {groundSpeed.ToString("f4")}\n" +
@@ -166,12 +177,14 @@ public class Player : MonoBehaviour {
                         $"WishVel: {wishVelocity.ToString("F4")}\n" +
                         $"Position: {transform.position.ToString("F4")}\n" +
                         $"MoveDir: {input.moveDir}\n" +
+                        $"LookDir: {lookDir}\n" +
                         $"Grounded: {controller.isGrounded()}\n" +
                         $"Slope Angle: {controller.SlopeAngle()}\n" +
                         $"Calculating Gravity: {StateMachine.CurrentState.calculatingGravity()}\n" +
                         $"Can Uncrouch: {controller.canUncrouch()}\n" +
                         $"Bumping Head: {controller.isBumpingHead()}\n" +
                         $"Touching Wall: {controller.isTouchingWall()}\n\n" +
+
                         $"Jump Buffer: {jumpBufferCounter}\n"
                         
         ;

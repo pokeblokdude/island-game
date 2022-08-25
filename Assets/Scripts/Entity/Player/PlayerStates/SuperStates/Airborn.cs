@@ -37,7 +37,7 @@ public class Airborn : PlayerState {
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
 
-        if(player.actualVelocity.y < 0.5f) {
+        if(player.actualVelocity.y < 1) {
             gravity = playerData.gravity * playerData.fallingGravityMult;
         }
 

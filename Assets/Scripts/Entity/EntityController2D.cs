@@ -23,6 +23,8 @@ public class EntityController2D : MonoBehaviour {
     bool touchingWall = false;
     int wallDir = 0;
 
+    public int lookDir { get; private set; } = 1;
+
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
@@ -45,6 +47,9 @@ public class EntityController2D : MonoBehaviour {
         
         // apply velocity
         rb.MovePosition(new Vector3(rb.position.x, rb.position.y, transform.position.z) + moveAmount);
+        if(moveAmount.x != 0) {
+            lookDir = (int)Mathf.Sign(moveAmount.x);
+        }
         return moveAmount / Time.fixedDeltaTime;
     }
 
@@ -220,5 +225,12 @@ public class EntityController2D : MonoBehaviour {
     }
     public float SlopeAngle() {
         return slopeAngle;
+    }
+
+    public void OverrideLookDirection(int dir) {
+        if(dir == 0) {
+            return;
+        }
+        lookDir = Mathf.Clamp(dir, -1, 1);
     }
 }

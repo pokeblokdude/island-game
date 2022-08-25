@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxFallSpeed: -20
   maxSpeed: 4
-  maxAirSpeed: 6
+  maxAirSpeed: 5
   crouchSpeedMult: 0.5
   acceleration: 2
   airAcceleration: 0.6
@@ -22,10 +22,10 @@ MonoBehaviour:
   crouchFrictionMult: 2
   airFriction: 30
   gravity: 20
-  fallingGravityMult: 3
+  fallingGravityMult: 2.5
   maxSlopeAngle: 55
-  jumpForce: 7
+  jumpForce: 6.5
   jumpIncreaseTime: 0.15
-  coyoteTime: 0.2
-  jumpBufferTime: 1
+  coyoteTime: 0.15
+  jumpBufferTime: 0.2
   hardLandingThreshold: -50
