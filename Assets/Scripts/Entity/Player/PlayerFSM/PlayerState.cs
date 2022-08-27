@@ -13,6 +13,7 @@ public class PlayerState {
     private string animBoolName;
 
     protected bool CALCULATE_GRAVITY = true;
+    protected bool FIRST_FRAME = false;
 
     protected float gravity;
     protected bool grounded;
@@ -38,6 +39,7 @@ public class PlayerState {
         //TODO: RE-IMPLEMENT ANIMATIONS
         //player.anim.SetBool(animBoolName, true);
         startTime = Time.time;
+        FIRST_FRAME = true;
         //Debug.Log(animBoolName);
         gravity = playerData.gravity;
         holdingJump = jump;
@@ -86,6 +88,10 @@ public class PlayerState {
             else if(player.actualVelocity.y >= playerData.maxFallSpeed && !grounded) {
                 player.setVelY(player.wishVelocity.y - (gravity * Time.fixedDeltaTime));
             }
+        }
+
+        if(player.healthInfo.lastDamageAmount > 0) {
+            stateMachine.ChangeState(player.TakingDamageState);
         }
     }
 

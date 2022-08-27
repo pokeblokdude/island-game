@@ -27,4 +27,7 @@ public class PlayerData : ScriptableObject {
     [Header("Landing")]
     public float hardLandingThreshold = -10f;
 
+    [Header("Combat")]
+    public float damageIFrameTime = 0.5f;
+    public float damageKnockbackSpeed = 4;
 }

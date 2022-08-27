@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour {
     void Start() {
         anim = FindObjectOfType<SceneTransitionAnimation>();
         player = FindObjectOfType<Player>();
-        SpawnPlayerAtEntrance(SceneTransitionData.exitID);
+        //SpawnPlayerAtEntrance(SceneTransitionData.exitID);
     }
 
     public void LoadLevel(SceneReference scene, ExitID exitID) {
@@ -27,7 +27,17 @@ public class LevelManager : MonoBehaviour {
         SceneManager.LoadScene(scene);
         anim.PlaySceneEnter();
     }
+    
+    public void ReloadLevel() {
+        StartCoroutine(ReloadCurrentScene());
+    }
 
+    IEnumerator ReloadCurrentScene() {
+        //anim.PlaySceneExit();
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //anim.PlaySceneEnter();
+    }
     void SpawnPlayerAtEntrance(ExitID exitID) {
         print($"Looking for entrance {SceneTransitionData.exitID}");
         LevelExit correctEntrance = null;

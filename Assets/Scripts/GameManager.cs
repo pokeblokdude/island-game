@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+    [Header("General")]
     [SerializeField] int framerate = 60;
     [SerializeField] bool capFramerate = false;
     [SerializeField][Range(0,1)] float timescale = 1;
 
-    [SerializeField] bool doPlayerSpawnPoint = false;
-
-    Player player;
-    SpawnPosition spawnPosition;
+    [Header("Level")]
+    [SerializeField] LevelManager levelManager;
 
     InputManager input;
     bool reset = false;
@@ -19,7 +18,7 @@ public class GameManager : MonoBehaviour {
         input = new InputManager();
         input.Game.Reset.performed += ctx => {
             if(!reset) {
-                resetGame();
+                levelManager.ReloadLevel();
                 reset = true;
             }
         };
@@ -31,23 +30,11 @@ public class GameManager : MonoBehaviour {
         };
     }
 
-    void Start() {
-        player = FindObjectOfType<Player>();
-        spawnPosition = FindObjectOfType<SpawnPosition>();
-        if(doPlayerSpawnPoint) {
-            player.transform.position = spawnPosition.transform.position;
-        }
-    }
-
     void Update() {
         if(capFramerate) {
             Application.targetFrameRate = framerate;
         }
         Time.timeScale = timescale;
-    }
-
-    void resetGame() {
-        player.transform.position = spawnPosition.transform.position;
     }
 
     void OnEnable() {

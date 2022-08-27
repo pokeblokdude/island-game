@@ -29,3 +29,5 @@ MonoBehaviour:
   coyoteTime: 0.15
   jumpBufferTime: 0.2
   hardLandingThreshold: -50
+  damageIFrameTime: 0.25
+  damageKnockbackSpeed: 4

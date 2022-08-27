@@ -18,7 +18,8 @@ GameObject:
   - component: {fileID: 476561067}
   - component: {fileID: 4583779993513891778}
   - component: {fileID: 5535415242186728053}
-  m_Layer: 0
+  - component: {fileID: 285862425}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -60,7 +61,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 8f693c2fa9a07f640bd8c0ebf858bb31, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,8 +79,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -330748037
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4bd240a081faa3e4aacab0dbe457c9de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -125,10 +126,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0625, y: -0.125}
+  m_Offset: {x: -0.0625, y: 0.75}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5833334, y: -0}
     oldSize: {x: 1.5, y: 1.75}
     newSize: {x: 0.24, y: 0.28}
     adaptiveTilingThreshold: 0.5
@@ -186,7 +187,6 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: ebbb13a544a5cf44e999c65358da1c71, type: 2}
   ledgeGrabPoint: {fileID: 0}
   text: {fileID: 0}
-  attackHitbox: {fileID: 0}
   jumpBufferCounter: 0
   CALCULATE_COLLISION: 1
 --- !u!114 &476561067
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851587080116333284}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08d3df192d92e55458d7fd5a29951053, type: 3}
   m_Name: 
@@ -231,8 +231,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 836dda35d3d1f9d4b96b191149dd2199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityLayer:
+  targetLayer:
     serializedVersion: 2
     m_Bits: 256
-  size: {x: 1, y: 1}
-  offset: {x: 1, y: 0}
+  bodyIsDamageSource: 0
+  size: {x: 0.65, y: 1}
+  offset: {x: 0.65, y: 0}
+--- !u!114 &285862425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851587080116333284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310b4600ec3f7d64d8903e517634eca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  combatTargetStats: {fileID: 11400000, guid: d1e4e331f23bd0440a8bd61afa1b4b57, type: 2}
+  healthText: {fileID: 0}
+  damagable: 1

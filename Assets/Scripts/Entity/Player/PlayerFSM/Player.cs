@@ -23,6 +23,7 @@ public class Player : MonoBehaviour {
     public Jumping JumpingState { get; private set; }
    
     public Attacking AttackingState { get; private set; }
+    public TakingDamage TakingDamageState { get; private set; }
     #endregion
 
     public SpriteRenderer sr { get; private set; }
@@ -33,7 +34,8 @@ public class Player : MonoBehaviour {
     [SerializeField] public LedgeGrabPoint ledgeGrabPoint;
     [SerializeField] Text text;
 
-    public CombatDamageDealer attackHitbox;
+    public CombatDamageDealer attackHitbox { get; private set; }
+    public CombatTarget healthInfo { get; private set; }
 
     public EntityController2D controller { get; private set; }
     public PlayerInput input { get; private set; }
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour {
         FallingFromJumpState = new FallingFromJump(this, StateMachine, playerData, "fallingFromJump");
 
         AttackingState = new Attacking(this, StateMachine, playerData, "attacking");
-
+        TakingDamageState = new TakingDamage(this, StateMachine, playerData, "damaged");
         #endregion
     }
 
@@ -77,6 +79,7 @@ public class Player : MonoBehaviour {
         StateMachine.Initialize(IdleState);
         attackHitbox = GetComponent<CombatDamageDealer>();
         attackHitbox.enabled = false;
+        healthInfo = GetComponent<CombatTarget>();
     }
 
     void Update() {
@@ -168,6 +171,8 @@ public class Player : MonoBehaviour {
     void setDebugText() {
         text.text =     $"FPS: {(1/Time.deltaTime).ToString("F0")}\n" +
                         $"deltaTime: {Time.deltaTime}\n\n" +
+    
+                        $"HP: {healthInfo.health}\n\n" +
 
                         $"Current State: {StateMachine.CurrentState.Name()}\n" +
                         $"Speed: {actualVelocity.magnitude.ToString("f2")}\n" +

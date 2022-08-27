@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8fc4a1185346d3e4ca7abf74b0f40395, type: 3}
-  m_Name: ScarecrowCombatStats
+  m_Name: PlayerCombatStats
   m_EditorClassIdentifier: 
-  health: 10
+  maxHealth: 10
   armor: 5

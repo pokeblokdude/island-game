@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Attacking : Grounded {
 
-    bool firstFrame = false;
-
     public Attacking(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
     : base(player, stateMachine, playerData, animBoolName) {
         
@@ -22,7 +20,6 @@ public class Attacking : Grounded {
         base.Enter();
         player.attackHitbox.enabled = true;
         DO_MOVEMENT = false;
-        firstFrame = true;
     }
 
     public override void Exit() {
@@ -36,9 +33,9 @@ public class Attacking : Grounded {
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
-        if(firstFrame) {
+        if(FIRST_FRAME) {
             //player.setGroundSpeed(7 * player.lookDir);
-            firstFrame = false;
+            FIRST_FRAME = false;
         }
         else {
             player.setGroundSpeed(player.Accelerate(0, m_grounded_accel, m_grounded_maxSpeed, m_grounded_friction));
