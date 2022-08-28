@@ -30,4 +30,4 @@ MonoBehaviour:
   jumpBufferTime: 0.2
   hardLandingThreshold: -50
   damageIFrameTime: 0.25
-  damageKnockbackSpeed: 4
+  damageKnockbackSpeed: 6

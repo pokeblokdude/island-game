@@ -29,5 +29,6 @@ public class PlayerData : ScriptableObject {
 
     [Header("Combat")]
     public float damageIFrameTime = 0.5f;
-    public float damageKnockbackSpeed = 4;
+    public float groundedKnockbackSpeed = 6;
+    public float airbornKnockbackSpeed = 4;
 }

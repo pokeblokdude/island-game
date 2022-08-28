@@ -39,12 +39,12 @@ public class TakingDamage : Airborn {
         if(FIRST_FRAME) {
             if(grounded) {
                 player.setGroundSpeed(
-                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerData.damageKnockbackSpeed
+                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerData.groundedKnockbackSpeed
                 );
             }
             else {
                 player.setVelX(
-                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerData.damageKnockbackSpeed
+                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerData.airbornKnockbackSpeed
                 );
             }
             FIRST_FRAME = false;
