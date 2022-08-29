@@ -27,6 +27,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Curvature: 5
+    - _ScanlineFreq: 1.25
     - _VignetteWidth: 37.37
     m_Colors: []
   m_BuildTextureStacks: []

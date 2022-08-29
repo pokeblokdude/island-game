@@ -1,14 +1,17 @@
+// CREDIT TO ACEROLA ON YOUTUBE
 Shader "Unlit/CRT" {
 
     Properties {
         _MainTex ("Texture", 2D) = "white" {}
         _Curvature ("Curvature", Float) = 1
         _VignetteWidth("Vignette Width", Float) = 1
+        _PixelResX("Pixel Resolution X", Integer) = 240
+        _PixelResY("Pixel Resolution Y", Integer) = 180
+        _ScanlineFreq("Scanline Frequency", Float) = 2.0
     }
 
     SubShader {
         Tags { "RenderType"="Opaque" }
-
         Pass {
 
             CGPROGRAM
@@ -30,6 +33,9 @@ Shader "Unlit/CRT" {
             sampler2D _MainTex;
             float _Curvature;
             float _VignetteWidth;
+            int _PixelResX;
+            int _PixelResY;
+            float _ScanlineFreq;
 
             interp vert (MeshData v) {
                 interp o;
@@ -39,7 +45,7 @@ Shader "Unlit/CRT" {
             }
 
             fixed4 frag (interp i) : SV_Target {
-                // CREDIT TO ACEROLA ON YOUTUBE
+                const float PI = 3.14159265f;
 
                 float2 uv = i.uv;
 
@@ -58,8 +64,8 @@ Shader "Unlit/CRT" {
                 vignette = smoothstep(0.0f, vignette, 1.0f - abs(uv));
                 vignette = saturate(vignette);
 
-                col.g *= (sin(i.uv.y * _ScreenParams.y * 2.0f) + 1.0f) * 0.15f + 1.0f;
-                col.rb *= (cos(i.uv.y * _ScreenParams.y * 2.0f) + 1.0f) * 0.135f + 1.0f; 
+                col.g *= (sin(i.uv.y * _PixelResY * PI * 2) + 1.0f) * 0.15f + 1.0f;
+                col.rb *= (cos(i.uv.y * _PixelResY * PI * 2) + 1.0f) * 0.135f + 1.0f; 
 
                 return saturate(col) * vignette.x * vignette.y;
             }
