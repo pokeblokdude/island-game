@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Attacking : Grounded {
 
-    public Attacking(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
-    : base(player, stateMachine, playerData, animBoolName) {
+    public Attacking(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName)
+    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
         
     }
 

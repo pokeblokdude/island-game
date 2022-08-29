@@ -6,8 +6,8 @@ public class TakingDamage : Airborn {
 
     int damageAmount;
 
-    public TakingDamage(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) 
-    : base(player, stateMachine, playerData, animBoolName) {
+    public TakingDamage(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName) 
+    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
         
     }
 
@@ -39,13 +39,14 @@ public class TakingDamage : Airborn {
         if(FIRST_FRAME) {
             if(grounded) {
                 player.setGroundSpeed(
-                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerData.groundedKnockbackSpeed
+                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerCombatStats.groundedKnockbackSpeed
                 );
             }
             else {
                 player.setVelX(
-                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerData.airbornKnockbackSpeed
+                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerCombatStats.airbornKnockbackSpeed
                 );
+                player.setVelY(player.actualVelocity.y < 0 ? playerCombatStats.airbornKnockbackSpeed * 2 : player.actualVelocity.y);
             }
             FIRST_FRAME = false;
         }
@@ -62,7 +63,7 @@ public class TakingDamage : Airborn {
             }
         }
 
-        if(Time.time - startTime > playerData.damageIFrameTime) {
+        if(Time.time - startTime > playerCombatStats.damageIFrameTime) {
             if(grounded) {
                 stateMachine.ChangeState(player.IdleState);
             }

@@ -6,8 +6,8 @@ public class Airborn : PlayerState {
 
     protected float m_airAcceleration;
 
-    public Airborn(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) 
-    : base(player, stateMachine, playerData, animBoolName) {
+    public Airborn(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName) 
+    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
         
     }
 

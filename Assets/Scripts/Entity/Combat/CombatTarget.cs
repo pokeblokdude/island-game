@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CombatTarget : MonoBehaviour {
     
     [SerializeField] bool debug = true;
-    [SerializeField] CombatTargetStats combatTargetStats;
+    [SerializeField] CombatStats combatStats;
     [SerializeField] Text healthText;
     SpriteRenderer sr;
     Material mat;
@@ -24,8 +24,8 @@ public class CombatTarget : MonoBehaviour {
     void Start() {
         sr = GetComponent<SpriteRenderer>();
         mat = sr.material;
-        health = combatTargetStats.maxHealth;
-        armor = combatTargetStats.armor;
+        health = combatStats.maxHealth;
+        armor = combatStats.armor;
     }
 
     void FixedUpdate() {

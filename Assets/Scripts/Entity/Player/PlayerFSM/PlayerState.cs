@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerState {
     protected Player player;
     protected PlayerStateMachine stateMachine;
-    protected PlayerData playerData;
+    protected EntityData playerData;
+    protected CombatStats playerCombatStats;
     protected InputManager input;
 
     protected float startTime;
@@ -27,10 +28,11 @@ public class PlayerState {
 
     protected bool holdingJump = false;
 
-    public PlayerState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) {
+    public PlayerState(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName) {
         this.player = player;
         this.stateMachine = stateMachine;
         this.playerData = playerData;
+        this.playerCombatStats = playerCombatStats;
         this.animBoolName = animBoolName;
     }
 
@@ -62,13 +64,13 @@ public class PlayerState {
 
     public virtual void DoLogicChecks() {
         grounded = player.controller.isGrounded();
-        moveDir = player.input.moveDir;
-        crouch = player.input.crouch;
-        jump = player.input.jump;
-        action = player.input.action;
-        actionUp = player.input.actionUp;
+        moveDir = GameInput.Player.moveDir;
+        crouch = GameInput.Player.crouch;
+        jump = GameInput.Player.jump;
+        action = GameInput.Player.action;
+        actionUp = GameInput.Player.actionUp;
         touchingWall = player.controller.isTouchingWall();
-        attack = player.input.attack;
+        attack = GameInput.Player.attack;
     }
 
     public virtual void DoPhysicsChecks() {

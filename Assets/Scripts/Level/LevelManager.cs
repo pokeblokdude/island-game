@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour {
 
     IEnumerator LoadScene(SceneReference scene) {
         anim.PlaySceneExit();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(anim.animationTime);
         SceneManager.LoadScene(scene);
         anim.PlaySceneEnter();
     }
@@ -34,6 +34,7 @@ public class LevelManager : MonoBehaviour {
 
     IEnumerator ReloadCurrentScene() {
         //anim.PlaySceneExit();
+        //yield return new WaitForSeconds(anim.animationTime);
         yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         //anim.PlaySceneEnter();

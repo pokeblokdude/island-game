@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   armor: 5
+  damageIFrameTime: 0.5
+  groundedKnockbackSpeed: 6
+  airbornKnockbackSpeed: 4

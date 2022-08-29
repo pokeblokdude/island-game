@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CrouchingMoving : Grounded {
 
-    public CrouchingMoving(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
-    : base(player, stateMachine, playerData, animBoolName) {
+    public CrouchingMoving(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName)
+    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
         
     }
 

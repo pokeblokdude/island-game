@@ -11,38 +11,27 @@ public class GameManager : MonoBehaviour {
     [Header("Level")]
     [SerializeField] LevelManager levelManager;
 
-    InputManager input;
     bool reset = false;
-
-    void Awake() {
-        input = new InputManager();
-        input.Game.Reset.performed += ctx => {
-            if(!reset) {
-                levelManager.ReloadLevel();
-                reset = true;
-            }
-        };
-        input.Game.Reset.canceled += ctx => {
-            reset = false;
-        };
-        input.Game.Quit.performed += ctx => {
-            Application.Quit();
-        };
-    }
 
     void Update() {
         if(capFramerate) {
             Application.targetFrameRate = framerate;
         }
         Time.timeScale = timescale;
-    }
 
-    void OnEnable() {
-        input.Enable();
-    }
+        if(GameInput.Game.reset) {
+            if(!reset) {
+                levelManager.ReloadLevel();
+                reset = true;
+            }
+        }
+        else {
+            reset = false;
+        }
 
-    void OnDisable() {
-        input.Disable();
+        if(GameInput.Game.quit) {
+            Application.Quit();
+        }
     }
 
 }

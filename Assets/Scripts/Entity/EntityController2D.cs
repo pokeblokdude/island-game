@@ -6,9 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class EntityController2D : MonoBehaviour {
     
-    [SerializeField] PlayerData playerData;
+    [SerializeField] EntityData playerData;
     public LayerMask collisionMask;
     [SerializeField] bool debug;
+    [SerializeField] int defaultLookDir;
 
     BoxCollider2D col;
     Rigidbody2D rb;

@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class FallingFromJump : Airborn {
 
-    bool holdingAction;
-
-    public FallingFromJump(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) 
-    : base(player, stateMachine, playerData, animBoolName) {
+    public FallingFromJump(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName) 
+    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
         
     }
 
@@ -23,9 +21,6 @@ public class FallingFromJump : Airborn {
         if(jump) {
             holdingJump = true;
         }
-        if(action) {
-            holdingAction = true;
-        }
     }
 
     public override void Exit() {
@@ -37,9 +32,6 @@ public class FallingFromJump : Airborn {
     }
 
     public override void PhysicsUpdate() {
-        if(!action) {
-            holdingAction = false;
-        }
 
         if(player.controller.isGrounded()) {
             if(player.wishVelocity.y < playerData.hardLandingThreshold) {

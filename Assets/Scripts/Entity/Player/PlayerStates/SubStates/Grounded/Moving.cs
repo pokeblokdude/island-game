@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Moving : Grounded {
 
-    public Moving(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
-    : base(player, stateMachine, playerData, animBoolName) {
+    public Moving(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName)
+    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
         
     }
     

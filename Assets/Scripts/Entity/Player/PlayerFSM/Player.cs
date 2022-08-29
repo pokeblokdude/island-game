@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(EntityController2D))]
 public class Player : MonoBehaviour {
     
@@ -30,45 +29,44 @@ public class Player : MonoBehaviour {
     public Animator anim { get; private set; }
     public BoxCollider2D col { get; private set; }
 
-    [SerializeField] PlayerData playerData;
-    [SerializeField] public LedgeGrabPoint ledgeGrabPoint;
+    [SerializeField] EntityData playerData;
+    [SerializeField] CombatStats playerCombatStats;
     [SerializeField] Text text;
 
     public CombatDamageDealer attackHitbox { get; private set; }
     public CombatTarget healthInfo { get; private set; }
 
     public EntityController2D controller { get; private set; }
-    public PlayerInput input { get; private set; }
     public float groundSpeed { get; private set; }
     public Vector3 wishVelocity { get; private set; }
     public Vector3 actualVelocity { get; private set; }
     public int lookDir { get; private set; } = 1;
 
+    [HideInInspector]
     public float jumpBufferCounter;
 
     public bool CALCULATE_COLLISION = true;
 
     void Awake() {
-        input = GetComponent<PlayerInput>();
         controller = GetComponent<EntityController2D>();
 
         #region StateMachine Init
         StateMachine = new PlayerStateMachine();
 
-        IdleState = new Idle(this, StateMachine, playerData, "idle");
-        LeaningState = new Leaning(this, StateMachine, playerData, "leaning");
-        MovingState = new Moving(this, StateMachine, playerData, "moving");
-        CrouchingState = new Crouching(this, StateMachine, playerData, "crouching");
-        CrouchingMovingState = new CrouchingMoving(this, StateMachine, playerData, "crouchingMoving");
+        IdleState = new Idle(this, StateMachine, playerData, playerCombatStats, "idle");
+        LeaningState = new Leaning(this, StateMachine, playerData, playerCombatStats, "leaning");
+        MovingState = new Moving(this, StateMachine, playerData, playerCombatStats, "moving");
+        CrouchingState = new Crouching(this, StateMachine, playerData, playerCombatStats, "crouching");
+        CrouchingMovingState = new CrouchingMoving(this, StateMachine, playerData, playerCombatStats, "crouchingMoving");
 
-        HardLandingState = new HardLanding(this, StateMachine, playerData, "hardLanding");
+        HardLandingState = new HardLanding(this, StateMachine, playerData, playerCombatStats, "hardLanding");
 
-        JumpingState = new Jumping(this, StateMachine, playerData, "jumping");
-        FallingState = new Falling(this, StateMachine, playerData, "falling");
-        FallingFromJumpState = new FallingFromJump(this, StateMachine, playerData, "fallingFromJump");
+        JumpingState = new Jumping(this, StateMachine, playerData, playerCombatStats, "jumping");
+        FallingState = new Falling(this, StateMachine, playerData, playerCombatStats, "falling");
+        FallingFromJumpState = new FallingFromJump(this, StateMachine, playerData, playerCombatStats, "fallingFromJump");
 
-        AttackingState = new Attacking(this, StateMachine, playerData, "attacking");
-        TakingDamageState = new TakingDamage(this, StateMachine, playerData, "damaged");
+        AttackingState = new Attacking(this, StateMachine, playerData, playerCombatStats, "attacking");
+        TakingDamageState = new TakingDamage(this, StateMachine, playerData, playerCombatStats, "damaged");
         #endregion
     }
 
@@ -85,7 +83,7 @@ public class Player : MonoBehaviour {
     void Update() {
         StateMachine.CurrentState.LogicUpdate();
         setDebugText();
-        if(input.toggleDebugRays) {
+        if(GameInput.Debug.toggleDebugRays) {
             controller.ToggleDebugMode();
         }
     }
@@ -99,7 +97,6 @@ public class Player : MonoBehaviour {
                     wishVelocity.y,
                     0
                 );
-                //print(controller.SlopeAngle() == 0);
             }
             actualVelocity = controller.Move(wishVelocity * Time.fixedDeltaTime);
             if(!controller.isGrounded()) {
@@ -160,7 +157,7 @@ public class Player : MonoBehaviour {
 
     public float AirAccelerate(float wishDir, float airAcceleration, float maxAirSpeed, float airFriction) {
         float speed = actualVelocity.x;
-        if(input.moveDir != 0) {
+        if(GameInput.Player.moveDir != 0) {
             if(Mathf.Sign(wishDir) != Mathf.Sign(speed) || Mathf.Abs(speed) < maxAirSpeed) {
                 speed += wishDir * 330 * Time.fixedDeltaTime * airAcceleration / airFriction;
             }
@@ -181,7 +178,7 @@ public class Player : MonoBehaviour {
                         $"VSpeed: {actualVelocity.y.ToString("F4")}\n" +
                         $"WishVel: {wishVelocity.ToString("F4")}\n" +
                         $"Position: {transform.position.ToString("F4")}\n" +
-                        $"MoveDir: {input.moveDir}\n" +
+                        $"MoveDir: {GameInput.Player.moveDir}\n" +
                         $"LookDir: {lookDir}\n" +
                         $"Grounded: {controller.isGrounded()}\n" +
                         $"Slope Angle: {controller.SlopeAngle()}\n" +
