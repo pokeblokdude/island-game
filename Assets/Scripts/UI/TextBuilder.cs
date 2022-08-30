@@ -49,7 +49,38 @@ public class TextBuilder : MonoBehaviour {
     }
 
     IEnumerator WriteLetter(Queue<char> q) {
+        if(q.Count == 0) {
+            FinishWriting();
+            yield break;
+        }
+
         char letter = q.Dequeue();
+
+        // check for meta instructions
+        if(letter == '\\') {
+            bool esc = false;
+            string instr = "";
+            while(letter != ' ') {
+                letter = q.Dequeue();
+                // check if the backslash was meant as an escape char
+                if(letter == '\\') {
+                    esc = true;
+                    break;
+                }
+                instr += letter.ToString();
+            }
+            instr = instr.Substring(0, instr.Length-1);
+            // check commands if not esc char
+            if(!esc) {
+                switch(instr) {
+                    case "n":
+                        writePos = line2Start;
+                        break;
+                }
+                StartCoroutine(WriteLetter(q));
+                yield break;
+            }
+        }
 
         GameObject s = Instantiate(letterPrefab, transform.position, Quaternion.identity, transform);
         instantiated.Add(s);
@@ -64,11 +95,15 @@ public class TextBuilder : MonoBehaviour {
             StartCoroutine(WriteLetter(q));
         }
         else {
-            finishedWriting = true;
-            GameObject icon = Instantiate(textContinueIcon, transform.position, Quaternion.identity, transform);
-            instantiated.Add(icon);
-            icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(230, 6); // move to bottom right corner after spawning
+            FinishWriting();
             yield break;
         }
+    }
+
+    void FinishWriting() {
+        finishedWriting = true;
+        GameObject icon = Instantiate(textContinueIcon, transform.position, Quaternion.identity, transform);
+        instantiated.Add(icon);
+        icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(230, 6); // move to bottom right corner after spawning
     }
 }
