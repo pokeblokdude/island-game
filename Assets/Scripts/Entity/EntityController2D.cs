@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class EntityController2D : MonoBehaviour {
     
-    [SerializeField] EntityData playerData;
+    [SerializeField] EntityData entityData;
     public LayerMask collisionMask;
     [SerializeField] bool debug;
     [SerializeField] int defaultLookDir;
@@ -72,7 +72,7 @@ public class EntityController2D : MonoBehaviour {
         if(debug) Debug.DrawRay(new Vector2(bounds.center.x, bounds.min.y + (climbingSlope ? moveAmount.y : 0)), Vector2.right * directionX * (bounds.extents.x + rayLength), Color.cyan, Time.fixedDeltaTime);
         
         slopeAngle = slopeAngle == 0 ? Vector2.Angle(slopeHit.normal, Vector2.up) : slopeAngle;
-        if(slopeHit && slopeAngle <= playerData.maxSlopeAngle) {
+        if(slopeHit && slopeAngle <= entityData.maxSlopeAngle) {
             if(debug) Debug.DrawRay(slopeHit.point, slopeHit.normal * 0.5f, Color.white, Time.fixedDeltaTime);
             float distanceToSlope = 0;
             if(slopeAngle != slopeAngleOld) {
@@ -91,7 +91,7 @@ public class EntityController2D : MonoBehaviour {
             Debug.DrawRay(new Vector2(directionX == 1 ? bounds.max.x + rayLength : bounds.min.x - rayLength, bounds.max.y), Vector2.down * bounds.size.y, color, Time.fixedDeltaTime);
             Debug.DrawRay(new Vector2(directionX == 1 ? bounds.max.x : bounds.min.x, bounds.max.y), Vector2.right * directionX * rayLength, color, Time.fixedDeltaTime);
         }
-        if(hit && Vector2.Angle(hit.normal, Vector2.up) > playerData.maxSlopeAngle && (!climbingSlope || slopeAngle > playerData.maxSlopeAngle)) {
+        if(hit && Vector2.Angle(hit.normal, Vector2.up) > entityData.maxSlopeAngle && (!climbingSlope || slopeAngle > entityData.maxSlopeAngle)) {
             if(debug) Debug.DrawRay(hit.point, hit.normal * 0.5f, Color.white, Time.fixedDeltaTime);
             moveAmount.x = (hit.distance - skinWidth) * directionX;
             touchingWall = true;
@@ -171,7 +171,7 @@ public class EntityController2D : MonoBehaviour {
 
         if(hit) {
             slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-            if(slopeAngle != 0 && slopeAngle <= playerData.maxSlopeAngle) {
+            if(slopeAngle != 0 && slopeAngle <= entityData.maxSlopeAngle) {
                 if(Mathf.Sign(hit.normal.x) == directionX) {
                     if(hit.distance - 2 * skinWidth <= Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(amount.x)) {
                         float moveDistance = Mathf.Abs(amount.x);

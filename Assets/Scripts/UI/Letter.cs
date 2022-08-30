@@ -15,7 +15,7 @@ public class Letter : MonoBehaviour {
         rect = GetComponent<RectTransform>();
     }
 
-    void Start() {
+    public void Init(char inputLetter, Vector2 pos) {
         image.sprite = FontSpriteDictionary.GetLetter(inputLetter);
         rect.sizeDelta = new Vector2(image.preferredWidth, image.preferredHeight);
         Vector2 pixelPivot = image.sprite.pivot;
@@ -24,9 +24,8 @@ public class Letter : MonoBehaviour {
         rect.anchoredPosition = pos;
     }
 
-    public void Init(char inputLetter, Vector2 pos) {
-        this.inputLetter = inputLetter;
-        this.pos = pos;
+    public void Show() {
+        image.enabled = true;
     }
 
     public Vector2 GetSize() {
