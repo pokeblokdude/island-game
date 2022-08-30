@@ -13,6 +13,10 @@ public class PlayerInput {
     public bool actionUp = false;
 }
 
+public class UIInput {
+    public bool confirm = false;
+}
+
 public class GeneralInput {
     public bool reset = false;
     public bool quit = false;
@@ -27,12 +31,14 @@ public static class GameInput {
     private static InputManager im;
 
     public static PlayerInput Player { get; private set; } = null;
+    public static UIInput UI { get; private set; } = null;
     public static GeneralInput Game { get; private set; } = null;
     public static DebugInput Debug { get; private set; } = null;
 
     static GameInput() {
         im = new InputManager();
         Player = new PlayerInput();
+        UI = new UIInput();
         Game = new GeneralInput();
         Debug = new DebugInput();
 
@@ -77,6 +83,15 @@ public static class GameInput {
         };
         #endregion
 
+        #region UI
+        im.UI.Confirm.performed += ctx => {
+            UI.confirm = true;
+        };
+        im.UI.Confirm.canceled += ctx => {
+            UI.confirm = false;
+        };
+        #endregion
+
         #region GAME
         im.Game.Reset.performed += ctx => {
             Game.reset = true;
@@ -102,6 +117,19 @@ public static class GameInput {
             Debug.toggleDebugRays = false;
         };
         #endregion
+    }
+
+    public static void EnablePlayerControls() {
+        im.Player.Enable();
+    }
+    public static void DisablePlayerControls() {
+        im.Player.Disable();
+    }
+    public static void EnableUIControls() {
+        im.UI.Enable();
+    }
+    public static void DisableUIControls() {
+        im.UI.Disable();
     }
 
 }

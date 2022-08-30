@@ -7,7 +7,8 @@ Shader "Unlit/CRT" {
         _VignetteWidth("Vignette Width", Float) = 1
         _PixelResX("Pixel Resolution X", Integer) = 240
         _PixelResY("Pixel Resolution Y", Integer) = 180
-        _ScanlineFreq("Scanline Frequency", Float) = 2.0
+        _ScanlineOffset("Scanline Offset", Float) = 1
+        _ScanlineInt("Scanline Intensity", Range(0, 1)) = 1
     }
 
     SubShader {
@@ -35,7 +36,8 @@ Shader "Unlit/CRT" {
             float _VignetteWidth;
             int _PixelResX;
             int _PixelResY;
-            float _ScanlineFreq;
+            float _ScanlineOffset;
+            float _ScanlineInt;
 
             interp vert (MeshData v) {
                 interp o;
@@ -64,8 +66,8 @@ Shader "Unlit/CRT" {
                 vignette = smoothstep(0.0f, vignette, 1.0f - abs(uv));
                 vignette = saturate(vignette);
 
-                col.g *= (sin(i.uv.y * _PixelResY * PI * 2) + 1.0f) * 0.15f + 1.0f;
-                col.rb *= (cos(i.uv.y * _PixelResY * PI * 2) + 1.0f) * 0.135f + 1.0f; 
+                col.g *= lerp(1, (sin((i.uv.y * _PixelResY * PI * 2) - _ScanlineOffset) + 1.0f) * 0.15f + 1.0f, _ScanlineInt);
+                col.rb *= lerp(1, (cos((i.uv.y * _PixelResY * PI * 2) - _ScanlineOffset) + 1.0f) * 0.135f + 1.0f, _ScanlineInt); 
 
                 return saturate(col) * vignette.x * vignette.y;
             }

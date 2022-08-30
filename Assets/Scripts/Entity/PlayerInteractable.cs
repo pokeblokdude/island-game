@@ -12,11 +12,24 @@ public class PlayerInteractable : MonoBehaviour {
     public UnityEvent OnPlayerInteract;
 
     GameObject tooltipInstance;
-    
+    bool interactionActive;
+    bool eventTriggering = false;
 
+    void Update() {
+        if(interactionActive) {
+            if(GameInput.Player.actionUp && !eventTriggering) {
+                eventTriggering = true;
+                OnPlayerInteract.Invoke();
+            }
+            else if(!GameInput.Player.actionUp) {
+                eventTriggering = false;
+            }
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "Player") {
+            interactionActive = true;
             Transform ttAnchor = other.transform.GetChild(0);
             tooltipInstance = Instantiate(
                 tooltipPrefab,
@@ -33,6 +46,7 @@ public class PlayerInteractable : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D other) {
         if(other.tag == "Player") {
+            interactionActive = false;
             Destroy(tooltipInstance);
         }
     }
