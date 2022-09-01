@@ -220,12 +220,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75d61d7d02d091408b34aea96265ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: ebbb13a544a5cf44e999c65358da1c71, type: 2}
+  maxSlopeAngle: 55
   collisionMask:
     serializedVersion: 2
     m_Bits: 64
   debug: 0
-  defaultLookDir: 0
+  defaultLookDir: 1
 --- !u!114 &4583779993513891778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,11 +251,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 836dda35d3d1f9d4b96b191149dd2199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 0}
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
   bodyIsDamageSource: 0
-  size: {x: 0.65, y: 1}
+  applyDamageOnEnable: 1
+  size: {x: 1.25, y: 1}
   offset: {x: 0.65, y: 0}
 --- !u!114 &285862425
 MonoBehaviour:

@@ -9,9 +9,12 @@ public class CombatStats : ScriptableObject {
     public int maxHealth = 10;
     public int armor = 5;
 
-    [Header("Damage")]
+    [Header("Taking Damage")]
     public float damageIFrameTime = 0.5f;
     public float groundedKnockbackSpeed = 6;
     public float airbornKnockbackSpeed = 4;
+
+    [Header("Dealing Damage")]
+    public float dealAmount = 1;
 
 }

@@ -6,7 +6,6 @@ public class PlayerState {
     protected Player player;
     protected PlayerStateMachine stateMachine;
     protected EntityData playerData;
-    protected CombatStats playerCombatStats;
     protected InputManager input;
 
     protected float startTime;
@@ -27,12 +26,12 @@ public class PlayerState {
     protected int touchingWall;
 
     protected bool holdingJump = false;
+    protected bool takingDamage = false;
 
-    public PlayerState(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName) {
+    public PlayerState(Player player, PlayerStateMachine stateMachine, EntityData playerData, string animBoolName) {
         this.player = player;
         this.stateMachine = stateMachine;
         this.playerData = playerData;
-        this.playerCombatStats = playerCombatStats;
         this.animBoolName = animBoolName;
     }
 
@@ -92,7 +91,7 @@ public class PlayerState {
             }
         }
 
-        if(player.healthInfo.lastDamageAmount > 0) {
+        if(player.combatTarget.lastDamageAmount > 0 && !takingDamage) {
             stateMachine.ChangeState(player.TakingDamageState);
         }
     }

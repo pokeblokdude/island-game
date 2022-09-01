@@ -16,7 +16,6 @@ public class EntityData : ScriptableObject {
     public float airFriction = 30f;
     public float gravity = 20;
     public float fallingGravityMult = 2.5f;
-    public float maxSlopeAngle = 55f;
 
     [Header("Jump")]
     public float jumpForce = 6.5f;

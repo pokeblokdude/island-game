@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// credit to gist.github.com/brihernandez/VectorFuryPlayerInput.cs for starting point
+// credit to https://gist.github.com/brihernandez/VectorFuryPlayerInput.cs for starting point
 
 public class PlayerInput {
     public float moveDir = 0;

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class FallingFromJump : Airborn {
 
-    public FallingFromJump(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName) 
-    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
+    public FallingFromJump(Player player, PlayerStateMachine stateMachine, EntityData playerData, string animBoolName)
+    : base(player, stateMachine, playerData, animBoolName) {
         
     }
 

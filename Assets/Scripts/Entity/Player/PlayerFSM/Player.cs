@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(EntityController2D))]
 public class Player : MonoBehaviour {
     
+    public UnityEvent OnPlayerTakeDamage;
+
     #region State Machine Variables
     public PlayerStateMachine StateMachine { get; private set; }
 
@@ -30,11 +33,10 @@ public class Player : MonoBehaviour {
     public BoxCollider2D col { get; private set; }
 
     [SerializeField] EntityData playerData;
-    [SerializeField] CombatStats playerCombatStats;
     [SerializeField] Text text;
 
-    public CombatDamageDealer attackHitbox { get; private set; }
-    public CombatTarget healthInfo { get; private set; }
+    public CombatDamageDealer damageDealer { get; private set; }
+    public CombatTarget combatTarget { get; private set; }
 
     public EntityController2D controller { get; private set; }
     public float groundSpeed { get; private set; }
@@ -53,20 +55,20 @@ public class Player : MonoBehaviour {
         #region StateMachine Init
         StateMachine = new PlayerStateMachine();
 
-        IdleState = new Idle(this, StateMachine, playerData, playerCombatStats, "idle");
-        LeaningState = new Leaning(this, StateMachine, playerData, playerCombatStats, "leaning");
-        MovingState = new Moving(this, StateMachine, playerData, playerCombatStats, "moving");
-        CrouchingState = new Crouching(this, StateMachine, playerData, playerCombatStats, "crouching");
-        CrouchingMovingState = new CrouchingMoving(this, StateMachine, playerData, playerCombatStats, "crouchingMoving");
+        IdleState = new Idle(this, StateMachine, playerData, "idle");
+        LeaningState = new Leaning(this, StateMachine, playerData, "leaning");
+        MovingState = new Moving(this, StateMachine, playerData, "moving");
+        CrouchingState = new Crouching(this, StateMachine, playerData, "crouching");
+        CrouchingMovingState = new CrouchingMoving(this, StateMachine, playerData, "crouchingMoving");
 
-        HardLandingState = new HardLanding(this, StateMachine, playerData, playerCombatStats, "hardLanding");
+        HardLandingState = new HardLanding(this, StateMachine, playerData, "hardLanding");
 
-        JumpingState = new Jumping(this, StateMachine, playerData, playerCombatStats, "jumping");
-        FallingState = new Falling(this, StateMachine, playerData, playerCombatStats, "falling");
-        FallingFromJumpState = new FallingFromJump(this, StateMachine, playerData, playerCombatStats, "fallingFromJump");
+        JumpingState = new Jumping(this, StateMachine, playerData, "jumping");
+        FallingState = new Falling(this, StateMachine, playerData, "falling");
+        FallingFromJumpState = new FallingFromJump(this, StateMachine, playerData, "fallingFromJump");
 
-        AttackingState = new Attacking(this, StateMachine, playerData, playerCombatStats, "attacking");
-        TakingDamageState = new TakingDamage(this, StateMachine, playerData, playerCombatStats, "damaged");
+        AttackingState = new Attacking(this, StateMachine, playerData, "attacking");
+        TakingDamageState = new TakingDamage(this, StateMachine, playerData, "damaged");
         #endregion
     }
 
@@ -75,9 +77,9 @@ public class Player : MonoBehaviour {
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<BoxCollider2D>();
         StateMachine.Initialize(IdleState);
-        attackHitbox = GetComponent<CombatDamageDealer>();
-        attackHitbox.enabled = false;
-        healthInfo = GetComponent<CombatTarget>();
+        damageDealer = GetComponent<CombatDamageDealer>();
+        damageDealer.enabled = false;
+        combatTarget = GetComponent<CombatTarget>();
     }
 
     void Update() {
@@ -169,7 +171,7 @@ public class Player : MonoBehaviour {
         text.text =     $"FPS: {(1/Time.deltaTime).ToString("F0")}\n" +
                         $"deltaTime: {Time.deltaTime}\n\n" +
     
-                        $"HP: {healthInfo.health}\n\n" +
+                        $"HP: {combatTarget.health}\n\n" +
 
                         $"Current State: {StateMachine.CurrentState.Name()}\n" +
                         $"Speed: {actualVelocity.magnitude.ToString("f2")}\n" +

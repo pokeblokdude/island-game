@@ -6,8 +6,8 @@ public class Jumping : Airborn {
 
     float ogGravity;
 
-    public Jumping(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName) 
-    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
+    public Jumping(Player player, PlayerStateMachine stateMachine, EntityData playerData, string animBoolName) 
+    : base(player, stateMachine, playerData, animBoolName) {
         
     }
 

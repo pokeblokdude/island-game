@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class EntityController2D : MonoBehaviour {
     
-    [SerializeField] EntityData entityData;
+    [SerializeField] float maxSlopeAngle = 55;
     public LayerMask collisionMask;
     [SerializeField] bool debug;
     [SerializeField] int defaultLookDir;
 
-    BoxCollider2D col;
+    Collider2D col;
     Rigidbody2D rb;
 
     const float skinWidth = 0.015f;
@@ -28,7 +28,7 @@ public class EntityController2D : MonoBehaviour {
 
     void Start() {
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<BoxCollider2D>();
+        col = GetComponent<Collider2D>();
     }
 
     public Vector3 Move(Vector3 moveAmount) {
@@ -72,7 +72,7 @@ public class EntityController2D : MonoBehaviour {
         if(debug) Debug.DrawRay(new Vector2(bounds.center.x, bounds.min.y + (climbingSlope ? moveAmount.y : 0)), Vector2.right * directionX * (bounds.extents.x + rayLength), Color.cyan, Time.fixedDeltaTime);
         
         slopeAngle = slopeAngle == 0 ? Vector2.Angle(slopeHit.normal, Vector2.up) : slopeAngle;
-        if(slopeHit && slopeAngle <= entityData.maxSlopeAngle) {
+        if(slopeHit && slopeAngle <= maxSlopeAngle) {
             if(debug) Debug.DrawRay(slopeHit.point, slopeHit.normal * 0.5f, Color.white, Time.fixedDeltaTime);
             float distanceToSlope = 0;
             if(slopeAngle != slopeAngleOld) {
@@ -91,7 +91,7 @@ public class EntityController2D : MonoBehaviour {
             Debug.DrawRay(new Vector2(directionX == 1 ? bounds.max.x + rayLength : bounds.min.x - rayLength, bounds.max.y), Vector2.down * bounds.size.y, color, Time.fixedDeltaTime);
             Debug.DrawRay(new Vector2(directionX == 1 ? bounds.max.x : bounds.min.x, bounds.max.y), Vector2.right * directionX * rayLength, color, Time.fixedDeltaTime);
         }
-        if(hit && Vector2.Angle(hit.normal, Vector2.up) > entityData.maxSlopeAngle && (!climbingSlope || slopeAngle > entityData.maxSlopeAngle)) {
+        if(hit && Vector2.Angle(hit.normal, Vector2.up) > maxSlopeAngle && (!climbingSlope || slopeAngle > maxSlopeAngle)) {
             if(debug) Debug.DrawRay(hit.point, hit.normal * 0.5f, Color.white, Time.fixedDeltaTime);
             moveAmount.x = (hit.distance - skinWidth) * directionX;
             touchingWall = true;
@@ -171,7 +171,7 @@ public class EntityController2D : MonoBehaviour {
 
         if(hit) {
             slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-            if(slopeAngle != 0 && slopeAngle <= entityData.maxSlopeAngle) {
+            if(slopeAngle != 0 && slopeAngle <= maxSlopeAngle) {
                 if(Mathf.Sign(hit.normal.x) == directionX) {
                     if(hit.distance - 2 * skinWidth <= Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(amount.x)) {
                         float moveDistance = Mathf.Abs(amount.x);

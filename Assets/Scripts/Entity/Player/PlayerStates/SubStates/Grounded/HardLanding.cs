@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HardLanding : Grounded {
 
-    public HardLanding(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName)
-    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
+    public HardLanding(Player player, PlayerStateMachine stateMachine, EntityData playerData, string animBoolName)
+    : base(player, stateMachine, playerData, animBoolName) {
         
     }
 

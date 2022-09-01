@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Attacking : Grounded {
 
-    public Attacking(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName)
-    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
+    public Attacking(Player player, PlayerStateMachine stateMachine, EntityData playerData, string animBoolName)
+    : base(player, stateMachine, playerData, animBoolName) {
         
     }
 
@@ -18,13 +18,13 @@ public class Attacking : Grounded {
 
     public override void Enter() {
         base.Enter();
-        player.attackHitbox.enabled = true;
+        player.damageDealer.enabled = true;
         DO_MOVEMENT = false;
     }
 
     public override void Exit() {
         base.Exit();
-        player.attackHitbox.enabled = false;
+        player.damageDealer.enabled = false;
     }
 
     public override void LogicUpdate() {

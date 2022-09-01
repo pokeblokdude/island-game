@@ -308,6 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310b4600ec3f7d64d8903e517634eca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatTargetStats: {fileID: 11400000, guid: 2c8d427c4c6f29442b783f87dfe4a4e1, type: 2}
+  debug: 1
+  combatStats: {fileID: 11400000, guid: 2c8d427c4c6f29442b783f87dfe4a4e1, type: 2}
   healthText: {fileID: 3074632311822035288}
   damagable: 1

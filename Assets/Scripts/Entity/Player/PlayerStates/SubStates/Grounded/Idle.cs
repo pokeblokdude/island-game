@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Idle : Grounded {
 
-    public Idle(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName)
-    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
+    public Idle(Player player, PlayerStateMachine stateMachine, EntityData playerData, string animBoolName)
+    : base(player, stateMachine, playerData, animBoolName) {
         
     }
 

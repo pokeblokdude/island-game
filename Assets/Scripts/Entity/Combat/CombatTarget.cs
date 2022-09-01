@@ -18,8 +18,10 @@ public class CombatTarget : MonoBehaviour {
     public int health { get; private set; }
     public int armor { get; private set; }
 
-    public CombatDamageDealer lastDamageSource { get; private set; }
+    public Vector3 lastDamageSource { get; private set; }
     public int lastDamageAmount { get; private set; }
+
+    // TODO: take CombatStats into account when taking damage
 
     void Start() {
         sr = GetComponent<SpriteRenderer>();
@@ -35,17 +37,25 @@ public class CombatTarget : MonoBehaviour {
         }
     }
 
-    public void TakeDamage(CombatDamageDealer source, int amount) {
+    public void TakeDamage(Transform source, CombatStats sourceStats, int amount) {
         if(damagable && !dead) {
-            lastDamageAmount = 1;
-            lastDamageSource = source;
+            lastDamageAmount = amount;
+            lastDamageSource = source.position;
+            StartCoroutine(IFrames());
             StartCoroutine(DamageFlash());
-            health -= 1;
+            health -= amount;
             if(health <= 0) {
                 health = 0;
                 Die();
             }
         }
+    }
+
+    IEnumerator IFrames() {
+        damagable = false;
+        yield return new WaitForSeconds(combatStats.damageIFrameTime);
+        lastDamageAmount = 0;
+        damagable = true;
     }
 
     IEnumerator DamageFlash() {
@@ -62,9 +72,8 @@ public class CombatTarget : MonoBehaviour {
         }
     }
 
-    public void SetInvulnerable(bool i) {
-        lastDamageAmount = i ? 0 : lastDamageAmount;
-        damagable = !i;
+    public CombatStats GetCombatStats() {
+        return combatStats;
     }
 }
 

@@ -5,9 +5,10 @@ using UnityEngine;
 public class TakingDamage : Airborn {
 
     int damageAmount;
+    CombatStats playerCombatStats;
 
-    public TakingDamage(Player player, PlayerStateMachine stateMachine, EntityData playerData, CombatStats playerCombatStats, string animBoolName) 
-    : base(player, stateMachine, playerData, playerCombatStats, animBoolName) {
+    public TakingDamage(Player player, PlayerStateMachine stateMachine, EntityData playerData, string animBoolName)
+    : base(player, stateMachine, playerData, animBoolName) {
         
     }
 
@@ -20,13 +21,15 @@ public class TakingDamage : Airborn {
 
     public override void Enter() {
         base.Enter();
-        damageAmount = player.healthInfo.lastDamageAmount;
-        player.healthInfo.SetInvulnerable(true);
+        playerCombatStats = player.combatTarget.GetCombatStats();
+        takingDamage = true;
+        damageAmount = player.combatTarget.lastDamageAmount;
+        player.OnPlayerTakeDamage.Invoke();
     }
 
     public override void Exit() {
         base.Exit();
-        player.healthInfo.SetInvulnerable(false);
+        takingDamage = false;
     }
 
     public override void LogicUpdate() {
@@ -39,12 +42,12 @@ public class TakingDamage : Airborn {
         if(FIRST_FRAME) {
             if(grounded) {
                 player.setGroundSpeed(
-                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerCombatStats.groundedKnockbackSpeed
+                    Mathf.Sign(player.transform.position.x - player.combatTarget.lastDamageSource.x) * playerCombatStats.groundedKnockbackSpeed
                 );
             }
             else {
                 player.setVelX(
-                    Mathf.Sign(player.transform.position.x - player.healthInfo.lastDamageSource.transform.position.x) * playerCombatStats.airbornKnockbackSpeed
+                    Mathf.Sign(player.transform.position.x - player.combatTarget.lastDamageSource.x) * playerCombatStats.airbornKnockbackSpeed
                 );
                 player.setVelY(player.actualVelocity.y < 0 ? playerCombatStats.airbornKnockbackSpeed * 2 : player.actualVelocity.y);
             }

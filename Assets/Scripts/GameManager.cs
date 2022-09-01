@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour {
 
     bool reset = false;
 
+    void Start() {
+        Cursor.visible = false;
+    }
+
     void Update() {
         if(capFramerate) {
             Application.targetFrameRate = framerate;
