@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - Slope
+  - Breakable
   - Entity
   - 
   - 
@@ -41,8 +41,20 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: bg
+  - name: bg0
     uniqueID: 3432674071
+    locked: 0
+  - name: bg1
+    uniqueID: 216308953
+    locked: 0
+  - name: p_back
+    uniqueID: 1195742169
+    locked: 0
+  - name: player
+    uniqueID: 1023572753
+    locked: 0
+  - name: p_front
+    uniqueID: 4097647135
     locked: 0
   - name: fg
     uniqueID: 3964219259

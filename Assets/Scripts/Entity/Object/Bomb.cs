@@ -102,7 +102,10 @@ public class Bomb : MonoBehaviour {
                     damageDealer.ApplyDamageToTarget(t);
                 }
                 else {
-
+                    BombBreakable surface = obj.GetComponent<BombBreakable>();
+                    if(surface != null) {
+                        surface.Break();
+                    }
                 }
             }
         }
