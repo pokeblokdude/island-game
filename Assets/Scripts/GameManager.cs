@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour {
     [Header("General")]
     [SerializeField] int framerate = 60;
     [SerializeField] bool capFramerate = false;
-    [SerializeField][Range(0,1)] float timescale = 1;
 
     [Header("Level")]
     [SerializeField] LevelManager levelManager;
@@ -21,7 +20,6 @@ public class GameManager : MonoBehaviour {
         if(capFramerate) {
             Application.targetFrameRate = framerate;
         }
-        Time.timeScale = timescale;
 
         if(GameInput.Game.reset) {
             if(!reset) {

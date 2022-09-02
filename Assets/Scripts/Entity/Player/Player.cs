@@ -85,7 +85,7 @@ public class Player : MonoBehaviour {
     void Update() {
         StateMachine.CurrentState.LogicUpdate();
         setDebugText();
-        if(GameInput.Debug.toggleDebugRays) {
+        if(GameInput._Debug.toggleDebugRays) {
             controller.ToggleDebugMode();
         }
     }
@@ -169,7 +169,8 @@ public class Player : MonoBehaviour {
 
     void setDebugText() {
         text.text =     $"FPS: {(1/Time.deltaTime).ToString("F0")}\n" +
-                        $"deltaTime: {Time.deltaTime}\n\n" +
+                        $"deltaTime: {Time.deltaTime}\n" +
+                        $"Timescale: {Time.timeScale}\n\n" +
     
                         $"HP: {combatTarget.health}\n\n" +
 

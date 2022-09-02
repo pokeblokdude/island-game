@@ -17,10 +17,12 @@ public class Letter : MonoBehaviour {
 
     public void Init(char inputLetter, Vector2 pos) {
         image.sprite = FontSpriteDictionary.GetLetter(inputLetter);
+        // TRANSFORM SPRITE SIZE & ANCHOR TO RECT SIZE & ANCHOR =======================
         rect.sizeDelta = new Vector2(image.preferredWidth, image.preferredHeight);
         Vector2 pixelPivot = image.sprite.pivot;
         Vector2 percentPivot = new Vector2(pixelPivot.x / rect.sizeDelta.x, pixelPivot.y / rect.sizeDelta.y);
         rect.pivot = percentPivot;
+        // =============================================================================
         rect.anchoredPosition = pos;
     }
 

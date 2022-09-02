@@ -15,11 +15,21 @@ public class PlayerInput {
 
 public class UIInput {
     public bool confirm = false;
+    public bool back = false;
+    public bool menuLeft = false;
+    public bool menuRight = false;
+    // Input System bug - this would be one Vector2 input, but it breaks other maps
+    public bool up;
+    public bool down;
+    public bool left;
+    public bool right;
 }
 
 public class GeneralInput {
     public bool reset = false;
     public bool quit = false;
+    public bool pause = false;
+    public bool map = false;
 }
 
 public class DebugInput {
@@ -33,18 +43,18 @@ public static class GameInput {
     public static PlayerInput Player { get; private set; } = null;
     public static UIInput UI { get; private set; } = null;
     public static GeneralInput Game { get; private set; } = null;
-    public static DebugInput Debug { get; private set; } = null;
+    public static DebugInput _Debug { get; private set; } = null;
 
     static GameInput() {
         im = new InputManager();
         Player = new PlayerInput();
         UI = new UIInput();
         Game = new GeneralInput();
-        Debug = new DebugInput();
+        _Debug = new DebugInput();
 
         im.Enable();
 
-        #region PLAYER
+        #region ============== PLAYER ======================
         im.Player.Move.performed += ctx => {
             Player.moveDir = Mathf.Sign(ctx.ReadValue<float>());
         };
@@ -69,12 +79,6 @@ public static class GameInput {
         im.Player.Attack.canceled += ctx => {
             Player.attack = false;
         };
-        // im.Player.Action.performed += ctx => {
-        //     action = true;
-        // };
-        // im.Player.Action.canceled += ctx => {
-        //     action = false;
-        // };
         im.Player.ActionUp.performed += ctx => {
             Player.actionUp = true;
         };
@@ -83,16 +87,58 @@ public static class GameInput {
         };
         #endregion
 
-        #region UI
+        #region ============ UI =======================
         im.UI.Confirm.performed += ctx => {
             UI.confirm = true;
         };
         im.UI.Confirm.canceled += ctx => {
             UI.confirm = false;
         };
+        im.UI.Back.performed += ctx => {
+            UI.back = true;
+        };
+        im.UI.Back.canceled += ctx => {
+            UI.back = false;
+        };
+        im.UI.MenuLeft.performed += ctx => {
+            UI.menuLeft = true;
+        };
+        im.UI.MenuLeft.canceled += ctx => {
+            UI.menuLeft = false;
+        };
+        im.UI.MenuRight.performed += ctx => {
+            UI.menuRight = true;
+        };
+        im.UI.MenuRight.canceled += ctx => {
+            UI.menuRight = false;
+        };
+        im.UI.Up.performed += ctx => {
+            UI.up = true;
+        };
+        im.UI.Up.canceled += ctx => {
+            UI.up = false;
+        };
+        im.UI.Down.performed += ctx => {
+            UI.down = true;
+        };
+        im.UI.Down.canceled += ctx => {
+            UI.down = false;
+        };
+        im.UI.Left.performed += ctx => {
+            UI.left = true;
+        };
+        im.UI.Left.canceled += ctx => {
+            UI.left = false;
+        };
+        im.UI.Right.performed += ctx => {
+            UI.right = true;
+        };
+        im.UI.Right.canceled += ctx => {
+            UI.right = false;
+        };
         #endregion
 
-        #region GAME
+        #region ============ GAME =====================
         im.Game.Reset.performed += ctx => {
             Game.reset = true;
         };
@@ -105,16 +151,28 @@ public static class GameInput {
         im.Game.Quit.canceled += ctx => {
             Game.quit = false;
         };
+        im.Game.Pause.performed += ctx => {
+            Game.pause = true;
+        };
+        im.Game.Pause.canceled += ctx => {
+            Game.pause = false;
+        };
+        im.Game.Map.performed += ctx => {
+            Game.map = true;
+        };
+        im.Game.Map.canceled += ctx => {
+            Game.map = false;
+        };
         #endregion
 
-        #region DEBUG
+        #region ========= DEBUG =========================
         im.Debug.ToggleDebugRays.performed += ctx => {
             if(im.Debug.ToggleDebugRays.WasPressedThisFrame()) {
-                Debug.toggleDebugRays = true;
+                _Debug.toggleDebugRays = true;
             }
         };
         im.Debug.ToggleDebugRays.canceled += ctx => {
-            Debug.toggleDebugRays = false;
+            _Debug.toggleDebugRays = false;
         };
         #endregion
     }
