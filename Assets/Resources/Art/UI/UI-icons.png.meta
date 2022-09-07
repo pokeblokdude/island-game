@@ -3,7 +3,7 @@ guid: 253d080dad330c440b0feae47e41854d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -203,12 +204,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui-icons_heart
+      name: ui-icons_heart-left
       rect:
         serializedVersion: 2
         x: 41
         y: 120
-        width: 7
+        width: 4
         height: 7
       alignment: 1
       pivot: {x: 0, y: 1}
@@ -307,6 +308,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ui-icons_heart-right
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 120
+        width: 3
+        height: 7
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8da84e64f0f81294f940f91b4bf08bf4
+      internalID: -577221584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui-icons_heart-flash
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 110
+        width: 9
+        height: 9
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a26c486a5ecabd408a39ba7138d08e7
+      internalID: 1390407397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -321,11 +364,13 @@ TextureImporter:
       ui-icons_en: -805388071
       ui-icons_heart-container: -342910847
       ui-icons_hp: 100083276
+      ui-icons_heart-left: -960321165
       ui-icons_item-brackets: 2116679648
-      ui-icons_heart: -960321165
+      ui-icons_heart-flash: 1390407397
       ui-icons_control: -1749097972
       ui-icons_en-container: 1503341440
       ui-icons_energy: 1754870911
+      ui-icons_heart-right: -577221584
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

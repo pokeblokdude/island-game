@@ -20,6 +20,7 @@ public class CombatTarget : MonoBehaviour {
 
     public Vector3 lastDamageSource { get; private set; }
     public int lastDamageAmount { get; private set; }
+    public bool recentlyDamaged { get; private set; } = false;
 
     // TODO: take CombatStats into account when taking damage
 
@@ -41,6 +42,7 @@ public class CombatTarget : MonoBehaviour {
         if(damagable && !dead) {
             lastDamageAmount = amount;
             lastDamageSource = source.position;
+            StartCoroutine(RecentDamage());
             StartCoroutine(IFrames());
             StartCoroutine(DamageFlash());
             health -= amount;
@@ -49,6 +51,12 @@ public class CombatTarget : MonoBehaviour {
                 Die();
             }
         }
+    }
+
+    IEnumerator RecentDamage() {
+        recentlyDamaged = true;
+        yield return new WaitForSeconds(0.35f);
+        recentlyDamaged = false;
     }
 
     IEnumerator IFrames() {

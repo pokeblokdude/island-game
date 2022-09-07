@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour {
     
-    Image bg;
-    Image layout;
+    GameObject bg;
+    GameObject layout;
     Inventory playerInventory;
     [SerializeField] RectTransform[] slots;
     public bool open { get; private set; }
@@ -14,15 +14,15 @@ public class InventoryUI : MonoBehaviour {
     bool toggling = false;
 
     void Awake() {
-        bg = transform.GetChild(0).GetComponent<Image>();
-        layout = transform.GetChild(1).GetComponent<Image>();
+        bg = transform.GetChild(0).gameObject;
+        layout = transform.GetChild(1).gameObject;
         playerInventory = FindObjectOfType<Player>().GetComponent<Inventory>();
     }
 
     void Start() {
         open = false;
-        bg.enabled = false;
-        layout.enabled = false;
+        bg.SetActive(false);
+        layout.SetActive(false);
         Close();
     }
 
@@ -45,8 +45,8 @@ public class InventoryUI : MonoBehaviour {
 
     void ToggleUI(bool b) {
         open = b;
-        bg.enabled = b;
-        layout.enabled = b;
+        bg.SetActive(b);
+        layout.SetActive(b);
         Time.timeScale = b ? 0 : 1;
         if(b) {
             GameInput.DisablePlayerControls();

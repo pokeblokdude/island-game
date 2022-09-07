@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc4a1185346d3e4ca7abf74b0f40395, type: 3}
   m_Name: PlayerCombatStats
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 16
   armor: 5
   damageIFrameTime: 0.5
   groundedKnockbackSpeed: 6
   airbornKnockbackSpeed: 4
+  dealAmount: 1
