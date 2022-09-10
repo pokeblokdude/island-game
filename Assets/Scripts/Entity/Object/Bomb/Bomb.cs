@@ -4,8 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(EntityController2D))]
 public class Bomb : MonoBehaviour {
-    
-    [SerializeField] EntityData data;
+
     [SerializeField] float fuseDuration = 7;
     [SerializeField] float explosionRadius = 2.5f;
     [SerializeField] float flashInterval = 0.5f;
@@ -15,24 +14,20 @@ public class Bomb : MonoBehaviour {
     [SerializeField] Sprite flashOff;
     [SerializeField] Sprite flashOn;
 
+    WorldObject worldObject;
     SpriteRenderer sr;
-    EntityController2D controller;
     PolygonCollider2D col;
     CombatDamageDealer damageDealer;
     GameObject flame;
 
-    Vector3 wishVel;
-    Vector3 actualVel;
-    bool useGravity = true;
-    bool grounded = false;
     float fuseTime;
     
     bool lit = false;
     int flashing = 0;
 
     void Awake() {
+        worldObject = GetComponent<WorldObject>();
         sr = GetComponent<SpriteRenderer>();
-        controller = GetComponent<EntityController2D>();
         col = GetComponent<PolygonCollider2D>();
         damageDealer = GetComponent<CombatDamageDealer>();
         flame = transform.GetChild(0).gameObject;
@@ -67,21 +62,6 @@ public class Bomb : MonoBehaviour {
         StartCoroutine(Flash());
     }
 
-    void FixedUpdate() {
-        // GRAVITY
-        if(useGravity) {
-            if(grounded || controller.isBumpingHead()) {
-                wishVel.y = -data.gravity * Time.fixedDeltaTime;
-            }
-            else if(actualVel.y >= data.maxFallSpeed && !grounded) {
-                wishVel.y = wishVel.y - (data.gravity * Time.fixedDeltaTime);
-            }
-        }
-
-        actualVel = controller.Move(wishVel * Time.fixedDeltaTime);
-        grounded = controller.isGrounded();
-    }
-
     public void Light() {
         fuseTime = fuseDuration;
         lit = true;
@@ -89,7 +69,7 @@ public class Bomb : MonoBehaviour {
     }
 
     public void Throw(float velocity) {
-        wishVel.x = velocity;
+        worldObject.SetVelX(velocity);
     }
 
     void Explode() {

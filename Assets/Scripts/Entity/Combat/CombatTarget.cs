@@ -72,6 +72,12 @@ public class CombatTarget : MonoBehaviour {
         mat.SetFloat("_DamageColorOpacity", 0);
     }
 
+    public void Heal(int amount) {
+        if(health < combatStats.maxHealth) {
+            health += amount;
+        }
+    }
+
     void Die() {
         dead = true;
         damagable = false;
