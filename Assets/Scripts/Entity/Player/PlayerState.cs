@@ -37,20 +37,16 @@ public class PlayerState {
 
     public virtual void Enter() {
         DoLogicChecks();
-        //TODO: RE-IMPLEMENT ANIMATIONS
-        //player.anim.SetBool(animBoolName, true);
+        player.anim.SetBool(animBoolName, true);
         startTime = Time.time;
         FIRST_FRAME = true;
         //Debug.Log(animBoolName);
         gravity = playerData.gravity;
         holdingJump = jump;
-
-        //player.ledgeGrabPoint.disable();
     }
 
     public virtual void Exit() {
-        //TODO: see above
-        //player.anim.SetBool(animBoolName, false);
+        player.anim.SetBool(animBoolName, false);
     }
 
     public virtual void LogicUpdate() {

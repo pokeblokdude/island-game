@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 4583779993513891778}
   - component: {fileID: 5535415242186728053}
   - component: {fileID: 285862425}
+  - component: {fileID: 2032777611}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -113,12 +114,12 @@ SpriteRenderer:
   m_SortingLayerID: 1023572753
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4bd240a081faa3e4aacab0dbe457c9de, type: 3}
+  m_Sprite: {fileID: -1151041800, guid: 4bd240a081faa3e4aacab0dbe457c9de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.24, y: 0.28}
+  m_Size: {x: 1.5, y: 1.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -132,9 +133,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851587080116333284}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 42c596691b32bd343b712d2943fb1a31, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -160,9 +161,9 @@ BoxCollider2D:
   m_Offset: {x: -0.0625, y: 0.75}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5833334, y: -0}
+    pivot: {x: 0.5833334, y: 0}
     oldSize: {x: 1.5, y: 1.75}
-    newSize: {x: 0.24, y: 0.28}
+    newSize: {x: 1.5, y: 1.75}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -277,3 +278,16 @@ MonoBehaviour:
   combatStats: {fileID: 11400000, guid: ef37c8ca023647048897426a955b994f, type: 2}
   healthText: {fileID: 0}
   damagable: 1
+--- !u!114 &2032777611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851587080116333284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea289846f42c0c446b695148537ae730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultItem: {fileID: 11400000, guid: 84bec0bc9b4da0041ba5256640344d4c, type: 2}

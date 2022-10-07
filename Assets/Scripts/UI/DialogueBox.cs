@@ -10,7 +10,7 @@ public class DialogueBox : MonoBehaviour {
 
     Image bg;
     TMP_Text textBox;
-    Image icon;
+    GameObject icon;
     
     int pageCount;
     bool finishedWriting = false;
@@ -21,7 +21,7 @@ public class DialogueBox : MonoBehaviour {
         bg = transform.GetChild(0).GetComponent<Image>();
         bg.enabled = false;
         textBox = transform.GetChild(1).GetComponent<TMP_Text>();
-        icon = transform.GetChild(2).GetComponent<Image>();
+        icon = transform.GetChild(2).gameObject;
         HideContinueIcon();
 
         textBox.text = "";
@@ -104,9 +104,9 @@ public class DialogueBox : MonoBehaviour {
     }
 
     void ShowContinueIcon() {
-        icon.enabled = true;
+        icon.SetActive(true);
     }
     void HideContinueIcon() {
-        icon.enabled = false;
+        icon.SetActive(false);
     }
 }
